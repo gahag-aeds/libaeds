@@ -1,16 +1,20 @@
 #include "stack.h"
 
 
-bool  vstack_empty(stack);
-bool  vstack_push(stack*, const void*);
-void* vstack_pop(stack*);
+static bool  vstack_empty(stack);
+static bool  vstack_push(stack*, const void*);
+static void* vstack_pop(stack*);
 
-bool  lstack_empty(stack);
-bool  lstack_push(stack*, const void*);
-void* lstack_pop(stack*);
+static bool  lstack_empty(stack);
+static bool  lstack_push(stack*, const void*);
+static void* lstack_pop(stack*);
 
 
-void delete_lstack(stack* s, void (*delete)(allocator, void*), allocator allocator) {
+static void delete_lstack(
+  stack* s,
+  void (*delete)(allocator, void*),
+  allocator allocator
+) {
   delete_llist(&s->data.llist, delete, allocator);
   
   *s = (stack) {
@@ -25,7 +29,11 @@ void delete_lstack(stack* s, void (*delete)(allocator, void*), allocator allocat
   };
 }
 
-void delete_vstack(stack* s, void (*delete)(allocator, void*), allocator allocator) {
+static void delete_vstack(
+  stack* s,
+  void (*delete)(allocator, void*),
+  allocator allocator
+) {
   delete_vlist(&s->data.vlist, delete, allocator);
   
   *s = (stack) {
@@ -90,28 +98,28 @@ void* stack_pop(stack* s) {
 
 
 
-bool vstack_empty(stack s) {
+static bool vstack_empty(stack s) {
   return vlist_empty(s.data.vlist);
 }
 
-bool vstack_push(stack* s, const void* obj) {
+static bool vstack_push(stack* s, const void* obj) {
   return vlist_push_head(&s->data.vlist, obj);
 }
 
-void* vstack_pop(stack* s) {
+static void* vstack_pop(stack* s) {
   return vlist_pop_head(&s->data.vlist);
 }
 
 
-bool lstack_empty(stack s) {
+static bool lstack_empty(stack s) {
   return llist_empty(s.data.llist);
 }
 
-bool lstack_push(stack* s, const void* obj) {
+static bool lstack_push(stack* s, const void* obj) {
   llist_push_head(&s->data.llist, obj);
   return true;
 }
 
-void* lstack_pop(stack* s) {
+static void* lstack_pop(stack* s) {
   return llist_pop_head(&s->data.llist);
 }

@@ -6,28 +6,42 @@
 #include <libaeds/memory.h>
 
 
+// A listnode is a node of a linked list.
 typedef struct listnode {
-  struct listnode* next;
-  void* data;
+  struct listnode* next;  // Pointer to the next node.
+  void* data; // Pointer to the data.
 } listnode;
 
+// A linked list is a list that uses linked nodes as storage.
 typedef struct linkedlist {
-  allocator allocator;
-  
-  listnode* head;
-  listnode* tail;
+  allocator allocator;  // The allocator used for memory
+                        // operations performed by the llist functions.
+  listnode* head; // The pointer to the head element of the list.
+  listnode* tail; // The pointer to the tail element of the list.
 } linkedlist;
 
 
+// The data referenced by a list node is the data pointer casted to a data type pointer.
 #define node_data(node, type) ((type*) (node)->data)
 
+// Creates a linked list that will use the specified allocator for memory allocations.
 extern linkedlist new_llist(allocator);
+// Delete a linked list, deallocating the memory used by the list
+// via the allocator specified in new_llist.
+// The delete function is called with the supplyed allocator for each contained element,
+// unless NULL is supplyed as the delete function.
 extern void delete_llist(linkedlist*, void (*delete)(allocator, void*), allocator);
 
+// Returns wether a linked list contains no elements or not.
 extern bool llist_empty(linkedlist);
 
-extern void llist_push_head(linkedlist*, const void*);  // Insert at the head.
-extern void llist_push_tail(linkedlist*, const void*);  // Insert at the tail.
+// Pushes an element to the head of a linked list.
+extern void llist_push_head(linkedlist*, const void*);
+// Pushes an element to the tail of a linked list.
+extern void llist_push_tail(linkedlist*, const void*);
+// Pops an element from the head of a linked list.
+// Returns NULL if the operation fails.
+// This operation fails if the linked list is empty.
 extern void* llist_pop_head(linkedlist*); // Pop from the head.
 
 

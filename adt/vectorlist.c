@@ -31,7 +31,7 @@ void delete_vlist(
   void (*delete)(allocator, void*),
   allocator allocator
 ) {
-  if (list->head != NULL) {
+  if (list->head != NULL && delete != NULL) {
     for (void** ptr = list->head; ptr != list->tail; ptr = vlist_advance(*list, ptr))
       delete(allocator, *ptr);
     

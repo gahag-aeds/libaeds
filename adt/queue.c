@@ -1,16 +1,20 @@
 #include "queue.h"
 
 
-bool  vqueue_empty(queue);
-bool  vqueue_push(queue*, const void*);
-void* vqueue_pop(queue*);
+static bool  vqueue_empty(queue);
+static bool  vqueue_push(queue*, const void*);
+static void* vqueue_pop(queue*);
 
-bool  lqueue_empty(queue);
-bool  lqueue_push(queue*, const void*);
-void* lqueue_pop(queue*);
+static bool  lqueue_empty(queue);
+static bool  lqueue_push(queue*, const void*);
+static void* lqueue_pop(queue*);
 
 
-void delete_lqueue(queue* s, void (*delete)(allocator, void*), allocator allocator) {
+static void delete_lqueue(
+  queue* s,
+  void (*delete)(allocator, void*),
+  allocator allocator
+) {
   if (s == NULL)
     return;
   
@@ -28,7 +32,11 @@ void delete_lqueue(queue* s, void (*delete)(allocator, void*), allocator allocat
   };
 }
 
-void delete_vqueue(queue* s, void (*delete)(allocator, void*), allocator allocator) {
+static void delete_vqueue(
+  queue* s,
+  void (*delete)(allocator, void*),
+  allocator allocator
+) {
   if (s == NULL)
     return;
   
@@ -102,28 +110,28 @@ void* dequeue(queue* s) {
 
 
 
-bool vqueue_empty(queue s) {
+static bool vqueue_empty(queue s) {
   return vlist_empty(s.data.vlist);
 }
 
-bool vqueue_push(queue* s, const void* obj) {
+static bool vqueue_push(queue* s, const void* obj) {
   return vlist_push_tail(&s->data.vlist, obj);
 }
 
-void* vqueue_pop(queue* s) {
+static void* vqueue_pop(queue* s) {
   return vlist_pop_head(&s->data.vlist);
 }
 
 
-bool lqueue_empty(queue s) {
+static bool lqueue_empty(queue s) {
   return llist_empty(s.data.llist);
 }
 
-bool lqueue_push(queue* s, const void* obj) {
+static bool lqueue_push(queue* s, const void* obj) {
   llist_push_tail(&s->data.llist, obj);
   return true;
 }
 
-void* lqueue_pop(queue* s) {
+static void* lqueue_pop(queue* s) {
   return llist_pop_head(&s->data.llist);
 }

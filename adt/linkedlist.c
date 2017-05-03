@@ -20,11 +20,12 @@ void delete_llist(
   listnode* next;
   
   for (listnode* node = list->head; node != NULL; node = next) {
-    void* obj = node->data;
     next = node->next;
     
+    if (delete != NULL)
+      delete(allocator, node->data);
+    
     dealloc(list->allocator, node);
-    delete(allocator, obj);
   }
   
   *list = (linkedlist) {

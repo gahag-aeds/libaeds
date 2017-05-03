@@ -2,9 +2,10 @@
 #define __STORAGETYPE_H_
 
 
+// Specification of the type of storage used by some data structures.
 typedef enum {
-  LinkedList,
-  VectorList
+  LinkedList, // A linked list is used as storage.
+  VectorList  // A vector list is used as storage.
 } storagetype;
 
 
