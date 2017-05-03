@@ -25,15 +25,11 @@ void delete_llist(
     if (delete != NULL)
       delete(allocator, node->data);
     
-    dealloc(list->allocator, node);
+    al_dealloc(list->allocator, node);
   }
   
   *list = (linkedlist) {
-    .allocator = (struct allocator) {
-      .allocate   = NULL,
-      .deallocate = NULL,
-      .mem_error  = NULL
-    },
+    .allocator = null_allocator(),
     .head = NULL,
     .tail = NULL
   };
@@ -49,7 +45,7 @@ void llist_push_head(linkedlist* list, const void* obj) {  // Insert at the head
   if (obj == NULL)
     return;
 
-  listnode* node = alloc(list->allocator, sizeof(*node));
+  listnode* node = al_alloc(list->allocator, 1, sizeof(*node));
   *node = (listnode) {
     .next = list->head,
     .data = (void*) obj
@@ -65,7 +61,7 @@ void llist_push_tail(linkedlist* list, const void* obj) {  // Insert at the tail
   if (obj == NULL)
     return;
   
-  listnode* node = alloc(list->allocator, sizeof(*node));
+  listnode* node = al_alloc(list->allocator, 1, sizeof(*node));
   *node = (listnode) {
     .next = NULL,
     .data = (void*) obj
@@ -89,7 +85,7 @@ void* llist_pop_head(linkedlist* list) {  // Pop from the head.
   if (list->tail == node)
     list->tail = NULL;
   
-  dealloc(list->allocator, node);
+  al_dealloc(list->allocator, node);
   
   return obj;
 }

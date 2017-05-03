@@ -19,7 +19,7 @@ vectorlist new_vlist(allocator allocator, size_t capacity) {
     
     .capacity = capacity,
     .data = capacity == 0 ? NULL
-                          : alloc(allocator, capacity * sizeof(void*)),
+                          : al_alloc(allocator, capacity, sizeof(void*)),
     
     .head = NULL,
     .tail = NULL
@@ -38,7 +38,7 @@ void delete_vlist(
     delete(allocator, *list->tail);
   }
   
-  dealloc(list->allocator, list->data);
+  al_dealloc(list->allocator, list->data);
   
   *list = (vectorlist) {
     .capacity = 0,
