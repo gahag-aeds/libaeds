@@ -41,6 +41,8 @@ void delete_vlist(
   al_dealloc(list->allocator, list->data);
   
   *list = (vectorlist) {
+    .allocator = null_allocator(),
+    
     .capacity = 0,
     .data = NULL,
     .head = NULL,
