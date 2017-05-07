@@ -1,5 +1,7 @@
 #include "queue.h"
 
+#include <assert.h>
+
 
 static bool  vqueue_empty(queue);
 static bool  vqueue_push(queue*, const void*);
@@ -11,16 +13,15 @@ static void* lqueue_pop(queue*);
 
 
 static void delete_lqueue(
-  queue* s,
+  queue* q,
   void (*delete)(allocator, void*),
   allocator allocator
 ) {
-  if (s == NULL)
-    return;
+  assert(q != NULL);
   
-  delete_llist(&s->data.llist, delete, allocator);
+  delete_llist(&q->data.llist, delete, allocator);
   
-  *s = (queue) {
+  *q = (queue) {
     .type = -1,
     
     .delete = NULL,
@@ -33,16 +34,15 @@ static void delete_lqueue(
 }
 
 static void delete_vqueue(
-  queue* s,
+  queue* q,
   void (*delete)(allocator, void*),
   allocator allocator
 ) {
-  if (s == NULL)
-    return;
+  assert(q != NULL);
   
-  delete_vlist(&s->data.vlist, delete, allocator);
+  delete_vlist(&q->data.vlist, delete, allocator);
   
-  *s = (queue) {
+  *q = (queue) {
     .type = -1,
     
     .delete = NULL,
@@ -84,54 +84,64 @@ queue new_vqueue(allocator allocator, size_t size) {
 }
 
 
-void delete_queue(queue* s, void (*delete)(allocator, void*), allocator allocator) {
-  if (s == NULL)
-    return;
+void delete_queue(queue* q, void (*delete)(allocator, void*), allocator allocator) {
+  assert(q != NULL && q->delete != NULL);
   
-  return s->delete(s, delete, allocator);
+  return q->delete(q, delete, allocator);
 }
 
 
-bool queue_empty(queue s) {
-  return s.empty(s);
-}
-
-
-bool enqueue(queue* s, const void* obj) {
-  if (s == NULL)
-    return false;
+bool queue_empty(queue q) {
+  assert(q.empty != NULL);
   
-  return s->enqueue(s, obj);
-}
-
-void* dequeue(queue* s) {
-  return s->dequeue(s);
+  return q.empty(q);
 }
 
 
-
-static bool vqueue_empty(queue s) {
-  return vlist_empty(s.data.vlist);
+bool enqueue(queue* q, const void* obj) {
+  assert(q != NULL && q->enqueue != NULL);
+  
+  return q->enqueue(q, obj);
 }
 
-static bool vqueue_push(queue* s, const void* obj) {
-  return vlist_push_tail(&s->data.vlist, obj);
+void* dequeue(queue* q) {
+  assert(q != NULL && q->dequeue != NULL);
+  
+  return q->dequeue(q);
 }
 
-static void* vqueue_pop(queue* s) {
-  return vlist_pop_head(&s->data.vlist);
+
+
+static bool vqueue_empty(queue q) {
+  return vlist_empty(q.data.vlist);
+}
+
+static bool vqueue_push(queue* q, const void* obj) {
+  assert(q != NULL);
+  
+  return vlist_push_tail(&q->data.vlist, obj);
+}
+
+static void* vqueue_pop(queue* q) {
+  assert(q != NULL);
+  
+  return vlist_pop_head(&q->data.vlist);
 }
 
 
-static bool lqueue_empty(queue s) {
-  return llist_empty(s.data.llist);
+static bool lqueue_empty(queue q) {
+  return llist_empty(q.data.llist);
 }
 
-static bool lqueue_push(queue* s, const void* obj) {
-  llist_push_tail(&s->data.llist, obj);
+static bool lqueue_push(queue* q, const void* obj) {
+  assert(q != NULL);
+  
+  llist_push_tail(&q->data.llist, obj);
   return true;
 }
 
-static void* lqueue_pop(queue* s) {
-  return llist_pop_head(&s->data.llist);
+static void* lqueue_pop(queue* q) {
+  assert(q != NULL);
+  
+  return llist_pop_head(&q->data.llist);
 }

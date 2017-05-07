@@ -1,7 +1,8 @@
 #include "linkedlist.h"
 
+#include <assert.h>
 #include <stdbool.h>
-#include <stdlib.h>
+#include <stddef.h>
 
 
 linkedlist new_llist(allocator allocator) {
@@ -13,10 +14,12 @@ linkedlist new_llist(allocator allocator) {
 }
 
 void delete_llist(
-  linkedlist* const list,
+  linkedlist* list,
   void (*delete)(allocator, void*),
   allocator allocator
 ) {
+  assert(list != NULL);
+  
   listnode* next;
   
   for (listnode* node = list->head; node != NULL; node = next) {
@@ -42,6 +45,8 @@ bool llist_empty(linkedlist list) {
 
 
 void llist_push_head(linkedlist* list, const void* obj) {  // Insert at the head.
+  assert(list != NULL);
+  
   if (obj == NULL)
     return;
 
@@ -58,6 +63,8 @@ void llist_push_head(linkedlist* list, const void* obj) {  // Insert at the head
 }
 
 void llist_push_tail(linkedlist* list, const void* obj) {  // Insert at the tail.
+  assert(list != NULL);
+  
   if (obj == NULL)
     return;
   
@@ -75,6 +82,8 @@ void llist_push_tail(linkedlist* list, const void* obj) {  // Insert at the tail
 
 
 void* llist_pop_head(linkedlist* list) {  // Pop from the head.
+  assert(list != NULL);
+  
   if (llist_empty(*list))
     return NULL;
   

@@ -1,6 +1,9 @@
 #ifndef __STACK_H__
 #define __STACK_H__
 
+#include <stdbool.h>
+#include <stddef.h>
+
 #include <libaeds/adt/storagetype.h>
 #include <libaeds/adt/linkedlist.h>
 #include <libaeds/adt/vectorlist.h>

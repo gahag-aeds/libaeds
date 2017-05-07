@@ -2,7 +2,7 @@
 #define __VECTOR_LIST_H__
 
 #include <stdbool.h>
-#include <stdlib.h>
+#include <stddef.h>
 
 #include <libaeds/memory.h>
 

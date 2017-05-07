@@ -1,5 +1,8 @@
 #include "vectorlist.h"
 
+#include <assert.h>
+#include <stddef.h>
+
 
 void** vlist_advance(vectorlist list, void** ptr) {
   return ptr + 1 >= (list.data + list.capacity) ? list.data
@@ -31,6 +34,8 @@ void delete_vlist(
   void (*delete)(allocator, void*),
   allocator allocator
 ) {
+  assert(list != NULL);
+  
   if (list->head != NULL && delete != NULL) {
     for (void** ptr = list->head; ptr != list->tail; ptr = vlist_advance(*list, ptr))
       delete(allocator, *ptr);
@@ -62,12 +67,15 @@ bool vlist_empty(vectorlist list) {
 
 bool vlist_full(vectorlist list) {
   return !vlist_empty(list)
+      && list.tail != NULL
       && list.head == vlist_advance(list, list.tail);
 }
 
 
 
 bool vlist_push_head(vectorlist* list, const void* obj) {
+  assert(list != NULL);
+  
   if (!vlist_initialized(*list) || obj == NULL || vlist_full(*list))
     return false;
   
@@ -82,6 +90,8 @@ bool vlist_push_head(vectorlist* list, const void* obj) {
 }
 
 bool vlist_push_tail(vectorlist* list, const void* obj) {
+  assert(list != NULL);
+  
   if (!vlist_initialized(*list) || obj == NULL || vlist_full(*list))
     return false;
   
@@ -97,6 +107,8 @@ bool vlist_push_tail(vectorlist* list, const void* obj) {
 
 
 void* vlist_pop_head(vectorlist* list) {
+  assert(list != NULL);
+  
   if (!vlist_initialized(*list) || vlist_empty(*list))
     return NULL;
   
@@ -112,6 +124,8 @@ void* vlist_pop_head(vectorlist* list) {
 
 
 void* vlist_pop_tail(vectorlist* list) {
+  assert(list != NULL);
+  
   if (!vlist_initialized(*list) || vlist_empty(*list))
     return NULL;
   

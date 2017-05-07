@@ -1,6 +1,9 @@
 #ifndef __QUEUE_H__
 #define __QUEUE_H__
 
+#include <stdbool.h>
+#include <stddef.h>
+
 #include <libaeds/memory.h>
 #include <libaeds/adt/storagetype.h>
 #include <libaeds/adt/linkedlist.h>
