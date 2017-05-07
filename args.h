@@ -9,28 +9,35 @@
 
 typedef int (*arg_handler)(const char*, void*);
 
-typedef struct argv_handler {
+typedef struct argvhandler {
   size_t argv_size;
   void* parameter;
   arg_handler* handlers;
-  int* results;
-} argv_handler;
+} argvhandler;
+
+typedef struct argvresults {
+  size_t argv_size;
+  int* data;
+} argvresults;
 
 
-extern argv_handler new_argv_handler(
+extern argvhandler new_argvhandler(
   allocator,
   size_t argv_size,
   void* param,
   arg_handler[argv_size]
 );
+extern void delete_argvhandler(allocator, argvhandler*);
 
-extern void delete_argv_handler(allocator, argv_handler*);
+
+extern argvresults new_argvresults(allocator, size_t argv_size);
+extern void delete_argvresults(allocator, argvresults*);
 
 
 extern bool handle_args(
-  allocator, argv_handler* result_handler,
+  allocator, argvresults* result_handler,
   size_t argv_size, char* argv[argv_size],
-  size_t argv_combinations, argv_handler handlers[argv_combinations]
+  size_t argv_combinations, argvhandler handlers[argv_combinations]
 );
 
 
