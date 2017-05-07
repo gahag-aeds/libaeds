@@ -8,7 +8,7 @@ argvhandler new_argvhandler(
   allocator allocator,
   size_t argv_size,
   void* param,
-  arg_handler handlers[argv_size]
+  arg_handler handlers[static argv_size]
 ) {
   argvhandler handler = {
     .argv_size = argv_size,
@@ -51,8 +51,8 @@ void delete_argvresults(allocator allocator, argvresults* results) {
 
 bool handle_args(
   allocator allocator, argvresults* results,
-  size_t argv_size, char* argv[argv_size],
-  size_t argv_combinations, argvhandler handlers[argv_combinations]
+  size_t argv_size, char* argv[static argv_size],
+  size_t argv_combinations, argvhandler handlers[static argv_combinations]
 ) {
   assert(
     argv != NULL && argv_size > 0 &&

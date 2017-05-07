@@ -25,19 +25,17 @@ extern argvhandler new_argvhandler(
   allocator,
   size_t argv_size,
   void* param,
-  arg_handler[argv_size]
+  arg_handler[static argv_size]
 );
 extern void delete_argvhandler(allocator, argvhandler*);
-
 
 extern argvresults new_argvresults(allocator, size_t argv_size);
 extern void delete_argvresults(allocator, argvresults*);
 
-
 extern bool handle_args(
   allocator, argvresults* result_handler,
-  size_t argv_size, char* argv[argv_size],
-  size_t argv_combinations, argvhandler handlers[argv_combinations]
+  size_t argv_size, char* argv[static argv_size],
+  size_t argv_combinations, argvhandler handlers[static argv_combinations]
 );
 
 
