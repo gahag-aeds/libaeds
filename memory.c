@@ -1,6 +1,6 @@
-#include <stdlib.h>
-
 #include "memory.h"
+
+#include <stdlib.h>
 
 
 void* al_alloc(allocator allocator, size_t num, size_t size) {
