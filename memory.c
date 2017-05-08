@@ -1,9 +1,12 @@
 #include "memory.h"
 
+#include <assert.h>
 #include <stdlib.h>
 
 
 void* al_alloc(allocator allocator, size_t num, size_t size) {
+  assert(allocator.allocate != NULL);
+  
   void* ptr = allocator.allocate(num, size);
   
   // A call to allocate with 0 as size, will return NULL.
@@ -15,6 +18,8 @@ void* al_alloc(allocator allocator, size_t num, size_t size) {
 }
 
 void* al_alloc_clear(allocator allocator, size_t num, size_t size) {
+  assert(allocator.allocate_clear != NULL);
+  
   void* ptr = allocator.allocate_clear(num, size);
   
   // A call to allocate_clear with 0 as size, will return NULL.
@@ -26,6 +31,8 @@ void* al_alloc_clear(allocator allocator, size_t num, size_t size) {
 }
 
 void* al_realloc(allocator allocator, void* ptr, size_t num, size_t size) {
+  assert(allocator.reallocate != NULL);
+  
   ptr = allocator.reallocate(ptr, num, size);
   
   // A call to allocate with 0 as size, will return NULL.
@@ -37,6 +44,8 @@ void* al_realloc(allocator allocator, void* ptr, size_t num, size_t size) {
 }
 
 void al_dealloc(allocator allocator, void* ptr) {
+  assert(allocator.deallocate != NULL);
+  
   allocator.deallocate(ptr);
 }
 
