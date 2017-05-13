@@ -9,13 +9,18 @@
 // The member functions of an allocator should not be called directly.
 // Use the helper functions below instead.
 typedef struct allocator {
+  // A pointer to the data internally used by the allocator.
+  // If the allocator uses no additional data, this should be NULL.
+  void* data;
+  
   // Allocate an array of `num` elements of the specified size in memory.
   // If size/num is zero, the behavior is implementation defined. Null pointer may
   // be returned, or some non-null pointer may be returned that may not be used
   // to access storage.
   // The returned pointer, if not null, must be passed to al_dealloc/al_realloc at
   // some point, otherwise a memory leak occurs.
-  void* (*allocate)(size_t, size_t);
+  // The data pointer of the allocator is passed as the last argument to this function.
+  void* (*allocate)(size_t num, size_t size, void*);
   
   // Allocate an array of `num` elements of the specified size in memory.
   // If size is zero, the behavior is implementation defined. Null pointer may
@@ -24,7 +29,8 @@ typedef struct allocator {
   // The returned pointer, if not null, must be passed to al_dealloc/al_realloc at
   // some point, otherwise a memory leak occurs.
   // The allocated memory is guaranteed to be 0 initialized.
-  void* (*allocate_clear)(size_t, size_t);
+  // The data pointer of the allocator is passed as the last argument to this function.
+  void* (*allocate_clear)(size_t num, size_t size, void*);
   
   // Reallocate previosly allocated memory, with new dimensions of
   // `num` elements of the specified size in memory.
@@ -43,13 +49,16 @@ typedef struct allocator {
   // to access storage.
   // The returned pointer, if not null, must be passed to al_dealloc/al_realloc at
   // some point, otherwise a memory leak occurs.
-  void* (*reallocate)(void*, size_t, size_t);
+  // The data pointer of the allocator is passed as the last argument to this function.
+  void* (*reallocate)(void* prev, size_t num, size_t size, void*);
   
   // Deallocate memory previously allocated via
   // a call to allocate/allocate_clear/reallocate.
-  void (*deallocate)(void*);
+  // The data pointer of the allocator is passed as the last argument to this function.
+  void (*deallocate)(void* ptr, void* data);
   
   // Function to call when allocation error is detected.
+  // The data pointer of the allocator is passed as the last argument to this function.
   void (*mem_error)(void);
 } allocator;
 

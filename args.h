@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include <libaeds/memory.h>
+#include <libaeds/memory/allocator.h>
 
 
 typedef int (*arg_handler)(const char*, void*);

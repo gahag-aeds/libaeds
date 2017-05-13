@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include <libaeds/memory.h>
+#include <libaeds/memory/allocator.h>
 
 
 // A vector list is a list that uses an array as storage.
