@@ -25,6 +25,9 @@ typedef struct linkedlist {
 #define node_data(node, type) ((type*) (node)->data)
 
 // Creates a linked list that will use the specified allocator for memory allocations.
+// The list only uses the allocator for allocating a listnodes one at a time.
+// Therefore, it supports any allocator that
+// provides `al_alloc(allocator, 1, sizeof(listnode))` and the correspondent al_dealloc.
 // Complexity: O(1)
 extern linkedlist new_llist(allocator);
 // Delete a linked list, deallocating the memory used by the list
