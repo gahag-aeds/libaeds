@@ -40,10 +40,9 @@ allocator new_vpool(allocator al, size_t size, size_t elem_size, void (*mem_erro
     .free_elements = new_vstack(al, size)
   };
   
-  foreach (i, 0, size) {
-    bool r = stack_push(&data->free_elements, data->vector + (i * data->elem_size));
-    assert(r);
-  }
+  foreach (i, 0, size)
+    if (!stack_push(&data->free_elements, data->vector + (i * data->elem_size)))
+      assert(false);
   
   return (allocator) {
     .data = data,
@@ -103,6 +102,6 @@ static void vpool_deallocate(void* ptr, void* _data) {
   assert(_data != NULL);
   assert(ptr >= data->vector && ptr <= data->vector + ((data->size - 1) * data->elem_size));
   
-  bool r = stack_push(&data->free_elements, ptr);
-  assert(r);
+  if (!stack_push(&data->free_elements, ptr))
+    assert(false);
 }
