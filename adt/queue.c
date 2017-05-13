@@ -12,6 +12,7 @@ static bool  lqueue_push(queue*, const void*);
 static void* lqueue_pop(queue*);
 
 
+// O(n)
 static void delete_lqueue(
   queue* q,
   void (*delete)(allocator, void*),

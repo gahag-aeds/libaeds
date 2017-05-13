@@ -23,45 +23,55 @@ typedef struct queue {
   // via the allocator specified in new_*queue.
   // The delete function is called with the supplyed allocator for each contained element,
   // unless NULL is supplyed as the delete function.
+  // Complexity: O(n) where n is the number of elements in the queue.
   void (*delete)(struct queue*, void (*delete)(allocator, void*), allocator);
   
   // Returns wether a queue contains no elements or not.
+  // Complexity: O(1)
   bool (*empty)(struct queue);
   
   // Pushes an element to a queue.
   // Returns wether the operation succeeded.
   // This operation fails if a vector list is used as storage, and the list is full.
+  // Complexity: O(1)
   bool (*enqueue)(struct queue*, const void*);
   // Pops an element from a queue.
   // Returns NULL if the operation fails.
   // This operation fails if the queue is empty.
+  // Complexity: O(1)
   void* (*dequeue)(struct queue*);
 } queue;
 
 
 // Creates a queue that uses a linked list as storage.
 // The linked list will use the supplyed allocator for memory operations.
+// Complexity: O(1)
 queue new_lqueue(allocator);
 // Creates a queue that uses a vector list of the specified size as storage.
 // The vector list will use the supplyed allocator for memory operations.
+// Complexity: O(1)
 queue new_vqueue(allocator, size_t);
 
 // Delete a queue, deallocating the memory used by the queue
 // via the allocator specified in new_*queue.
 // The delete function is called for each contained element and the supplyed allocator,
 // unless NULL is supplyed as the delete function.
+// Complexity: O(n) where n is the number of elements in the queue.
 void delete_queue(queue*, void (*delete)(allocator, void*), allocator);
 
 // Returns wether a queue contains no elements or not.
+// Complexity: O(1)
 bool queue_empty(queue);
 
 // Pushes an element to a queue.
 // Returns wether the operation succeeded.
 // This operation fails if a vector list is used as storage, and the list is full.
+// Complexity: O(1)
 bool enqueue(queue*, const void*);
 // Pops an element from a queue.
 // Returns NULL if the operation fails.
 // This operation fails if the queue is empty.
+// Complexity: O(1)
 void* dequeue(queue*);
 
 

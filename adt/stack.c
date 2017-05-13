@@ -12,6 +12,7 @@ static bool  lstack_push(stack*, const void*);
 static void* lstack_pop(stack*);
 
 
+// O(n)
 static void delete_lstack(
   stack* s,
   void (*delete)(allocator, void*),
@@ -19,7 +20,7 @@ static void delete_lstack(
 ) {
   assert(s != NULL);
   
-  delete_llist(&s->data.llist, delete, allocator);
+  delete_llist(&s->data.llist, delete, allocator); // O(n)
   
   *s = (stack) {
     .type = -1,
@@ -33,6 +34,7 @@ static void delete_lstack(
   };
 }
 
+// O(n)
 static void delete_vstack(
   stack* s,
   void (*delete)(allocator, void*),
@@ -40,7 +42,7 @@ static void delete_vstack(
 ) {
   assert(s != NULL);
   
-  delete_vlist(&s->data.vlist, delete, allocator);
+  delete_vlist(&s->data.vlist, delete, allocator); // O(n)
   
   *s = (stack) {
     .type = -1,
@@ -55,10 +57,11 @@ static void delete_vstack(
 }
 
 
+// O(1)
 stack new_lstack(allocator allocator) {
   return (stack) {
     .type = LinkedList,
-    .data.llist = new_llist(allocator),
+    .data.llist = new_llist(allocator), // O(1)
     
     .delete = delete_lstack,
     
@@ -69,10 +72,11 @@ stack new_lstack(allocator allocator) {
   };
 }
 
+// O(1)
 stack new_vstack(allocator allocator, size_t size) {
   return (stack) {
     .type = VectorList,
-    .data.vlist = new_vlist(allocator, size),
+    .data.vlist = new_vlist(allocator, size), // O(1)
     
     .delete = delete_vstack,
     
@@ -84,64 +88,74 @@ stack new_vstack(allocator allocator, size_t size) {
 }
 
 
+// O(n)
 void delete_stack(stack* s, void (*delete)(allocator, void*), allocator allocator) {
   assert(s != NULL && s->delete != NULL);
   
-  return s->delete(s, delete, allocator);
+  return s->delete(s, delete, allocator); // O(n)
 }
 
 
+// O(1)
 bool stack_empty(stack s) {
   assert(s.empty != NULL);
   
-  return s.empty(s);
+  return s.empty(s);  // O(1)
 }
 
 
+// O(1)
 bool stack_push(stack* s, const void* obj) {
   assert(s != NULL && s->push != NULL);
   
-  return s->push(s, obj);
+  return s->push(s, obj); // O(1)
 }
 
+// O(1)
 void* stack_pop(stack* s) {
   assert(s != NULL && s->pop != NULL);
   
-  return s->pop(s);
+  return s->pop(s); // O(1)
 }
 
 
 
+// O(1)
 static bool vstack_empty(stack s) {
-  return vlist_empty(s.data.vlist);
+  return vlist_empty(s.data.vlist); // O(1)
 }
 
+// O(1)
 static bool vstack_push(stack* s, const void* obj) {
   assert(s != NULL);
   
-  return vlist_push_head(&s->data.vlist, obj);
+  return vlist_push_head(&s->data.vlist, obj); // O(1)
 }
 
+// O(1)
 static void* vstack_pop(stack* s) {
   assert(s != NULL);
   
-  return vlist_pop_head(&s->data.vlist);
+  return vlist_pop_head(&s->data.vlist); // O(1)
 }
 
 
+// O(1)
 static bool lstack_empty(stack s) {
-  return llist_empty(s.data.llist);
+  return llist_empty(s.data.llist); // O(1)
 }
 
+// O(1)
 static bool lstack_push(stack* s, const void* obj) {
   assert(s != NULL);
   
-  llist_push_head(&s->data.llist, obj);
+  llist_push_head(&s->data.llist, obj); // O(1)
   return true;
 }
 
+// O(1)
 static void* lstack_pop(stack* s) {
   assert(s != NULL);
   
-  return llist_pop_head(&s->data.llist);
+  return llist_pop_head(&s->data.llist); // O(1)
 }

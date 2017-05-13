@@ -25,23 +25,29 @@ typedef struct linkedlist {
 #define node_data(node, type) ((type*) (node)->data)
 
 // Creates a linked list that will use the specified allocator for memory allocations.
+// Complexity: O(1)
 extern linkedlist new_llist(allocator);
 // Delete a linked list, deallocating the memory used by the list
 // via the allocator specified in new_llist.
 // The delete function is called with the supplyed allocator for each contained element,
 // unless NULL is supplyed as the delete function.
+// Complexity: O(n) where n is the number of elements in the list.
 extern void delete_llist(linkedlist*, void (*delete)(allocator, void*), allocator);
 
 // Returns wether a linked list contains no elements or not.
+// Complexity: O(1)
 extern bool llist_empty(linkedlist);
 
 // Pushes an element to the head of a linked list.
+// Complexity: O(1)
 extern void llist_push_head(linkedlist*, const void*);
 // Pushes an element to the tail of a linked list.
+// Complexity: O(1)
 extern void llist_push_tail(linkedlist*, const void*);
 // Pops an element from the head of a linked list.
 // Returns NULL if the operation fails.
 // This operation fails if the linked list is empty.
+// Complexity: O(1)
 extern void* llist_pop_head(linkedlist*); // Pop from the head.
 
 
