@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include <libaeds/memory.h>
+#include <libaeds/memory/allocator.h>
 #include <libaeds/adt/storagetype.h>
 #include <libaeds/adt/linkedlist.h>
 #include <libaeds/adt/vectorlist.h>

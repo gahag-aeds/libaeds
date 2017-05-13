@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include <libaeds/memory.h>
+#include <libaeds/memory/allocator.h>
 
 
 // A listnode is a node of a linked list.
