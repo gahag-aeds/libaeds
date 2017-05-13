@@ -1,4 +1,4 @@
-#include "io.h"
+#include "file.h"
 
 #include <assert.h>
 
@@ -9,8 +9,8 @@ bool file_skip_line(FILE* stream) {
   int c;
   
   do {
-    c = fgetc(stream);
-  } while(c != '\n' && c != EOF);
+    c = fgetc(stream);  // O(1)
+  } while(c != '\n' && c != EOF); // O(n)
   
   return c != EOF;
 }

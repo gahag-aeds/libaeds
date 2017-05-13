@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 
+// O(1)
 bool prompt(const char* prompt, const char* format, ...) {
   assert(prompt != NULL && format != NULL);
   
@@ -17,6 +18,7 @@ bool prompt(const char* prompt, const char* format, ...) {
   return result;
 }
 
+// O(1)
 bool prompt_va(const char* prompt, const char* format, va_list va) {
   assert(prompt != NULL && format != NULL);
   

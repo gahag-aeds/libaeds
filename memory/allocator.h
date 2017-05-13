@@ -1,5 +1,5 @@
-#ifndef __MEMORY_H__
-#define __MEMORY_H__
+#ifndef __MEMORY_ALLOCATOR_H__
+#define __MEMORY_ALLOCATOR_H__
 
 #include <stddef.h>
 
@@ -120,4 +120,4 @@ extern allocator std_allocator(void (*mem_error)(void));
 extern allocator null_allocator(void);
 
 
-#endif /* __MEMORY_H__ */
+#endif /* __MEMORY_ALLOCATOR_H__ */
