@@ -41,6 +41,9 @@ typedef struct queue {
 
 // Creates a queue that uses a linked list as storage.
 // The linked list will use the supplyed allocator for memory operations.
+// The list only uses the allocator for allocating a listnodes one at a time.
+// Therefore, it supports any allocator that
+// provides `al_alloc(allocator, 1, sizeof(listnode))` and the correspondent al_dealloc.
 queue new_lqueue(allocator);
 // Creates a queue that uses a vector list of the specified size as storage.
 // The vector list will use the supplyed allocator for memory operations.
