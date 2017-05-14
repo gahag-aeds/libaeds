@@ -25,7 +25,6 @@ static void vpool_deallocate(void*, void*);
 
 
 allocator new_vpool(allocator al, size_t size, size_t elem_size, void (*mem_error)(void)) {
-  assert(al.allocate != NULL && al.deallocate != NULL);
   assert(elem_size > 0 && size > 0);
   
   vpooldata* data = al_alloc(al, 1, sizeof(vpooldata));
@@ -40,7 +39,7 @@ allocator new_vpool(allocator al, size_t size, size_t elem_size, void (*mem_erro
     .free_elements = new_vstack(al, size)
   };
   
-  foreach (i, 0, size)
+  foreach_ix (i, 0, size)
     if (!stack_push(&data->free_elements, data->vector + (i * data->elem_size)))
       assert(false);
   
@@ -59,6 +58,9 @@ void delete_vpool(allocator* vpool) {
   assert(vpool != NULL);
   
   vpooldata* data = (vpooldata*) vpool->data;
+  
+  assert(data != NULL);
+  
   allocator al = data->allocator;
   
   al_dealloc(al, data->vector);
@@ -97,6 +99,9 @@ static void* vpool_allocate_clear(size_t num, size_t size, void* _data) {
 }
 
 static void vpool_deallocate(void* ptr, void* _data) {
+  if (ptr == NULL)
+    return;
+  
   vpooldata* data = _data;
   
   assert(_data != NULL);
