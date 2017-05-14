@@ -23,7 +23,9 @@ typedef struct queue {
   // via the allocator specified in new_*queue.
   // The delete function is called with the supplyed allocator for each contained element,
   // unless NULL is supplyed as the delete function.
-  // Complexity: O(n) where n is the number of elements in the queue.
+  // Complexity:
+  // On a lqueue: O(n)
+  // On a vqueue: O(n) when delete is not NULL. O(1) otherwise.
   void (*delete)(struct queue*, void (*delete)(allocator, void*), allocator);
   
   // Returns wether a queue contains no elements or not.
@@ -59,7 +61,9 @@ queue new_vqueue(allocator, size_t);
 // via the allocator specified in new_*queue.
 // The delete function is called for each contained element and the supplyed allocator,
 // unless NULL is supplyed as the delete function.
-// Complexity: O(n) where n is the number of elements in the queue.
+// Complexity:
+// On a lqueue: O(n)
+// On a vqueue: O(n) when delete is not NULL. O(1) otherwise.
 void delete_queue(queue*, void (*delete)(allocator, void*), allocator);
 
 // Returns wether a queue contains no elements or not.

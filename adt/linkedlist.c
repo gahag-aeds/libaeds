@@ -22,9 +22,7 @@ void delete_llist(
 ) {
   assert(list != NULL);
   
-  listnode* next;
-  
-  for (listnode* node = list->head; node != NULL; node = next) {
+  for (listnode* next, *node = list->head; node != NULL; node = next) { // O(n)
     next = node->next;
     
     if (delete != NULL)

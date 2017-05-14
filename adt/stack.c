@@ -34,7 +34,7 @@ static void delete_lstack(
   };
 }
 
-// O(n)
+// O(n) when delete is not NULL. O(1) otherwise.
 static void delete_vstack(
   stack* s,
   void (*delete)(allocator, void*),
@@ -88,7 +88,8 @@ stack new_vstack(allocator allocator, size_t size) {
 }
 
 
-// O(n)
+// On a lstack: O(n)
+// On a vstack: O(n) when delete is not NULL. O(1) otherwise.
 void delete_stack(stack* s, void (*delete)(allocator, void*), allocator allocator) {
   assert(s != NULL && s->delete != NULL);
   

@@ -34,6 +34,7 @@ static void delete_lqueue(
   };
 }
 
+// O(n) when delete is not NULL. O(1) otherwise.
 static void delete_vqueue(
   queue* q,
   void (*delete)(allocator, void*),
@@ -41,7 +42,8 @@ static void delete_vqueue(
 ) {
   assert(q != NULL);
   
-  delete_vlist(&q->data.vlist, delete, allocator);
+  delete_vlist(&q->data.vlist, delete, allocator); // O(n) when delete is not NULL.
+                                                   // O(1) otherwise
   
   *q = (queue) {
     .type = -1,
@@ -56,6 +58,7 @@ static void delete_vqueue(
 }
 
 
+// O(1)
 queue new_lqueue(allocator allocator) {
   return (queue) {
     .type = LinkedList,
@@ -70,6 +73,7 @@ queue new_lqueue(allocator allocator) {
   };
 }
 
+// O(1)
 queue new_vqueue(allocator allocator, size_t size) {
   return (queue) {
     .type = VectorList,
@@ -85,6 +89,8 @@ queue new_vqueue(allocator allocator, size_t size) {
 }
 
 
+// On a lqueue: O(n)
+// On a vqueue: O(n) when delete is not NULL. O(1) otherwise.
 void delete_queue(queue* q, void (*delete)(allocator, void*), allocator allocator) {
   assert(q != NULL && q->delete != NULL);
   
@@ -92,6 +98,7 @@ void delete_queue(queue* q, void (*delete)(allocator, void*), allocator allocato
 }
 
 
+// O(1)
 bool queue_empty(queue q) {
   assert(q.empty != NULL);
   
@@ -99,12 +106,14 @@ bool queue_empty(queue q) {
 }
 
 
+// O(1)
 bool enqueue(queue* q, const void* obj) {
   assert(q != NULL && q->enqueue != NULL);
   
   return q->enqueue(q, obj);
 }
 
+// O(1)
 void* dequeue(queue* q) {
   assert(q != NULL && q->dequeue != NULL);
   
@@ -113,16 +122,19 @@ void* dequeue(queue* q) {
 
 
 
+// O(1)
 static bool vqueue_empty(queue q) {
   return vlist_empty(q.data.vlist);
 }
 
+// O(1)
 static bool vqueue_push(queue* q, const void* obj) {
   assert(q != NULL);
   
   return vlist_push_tail(&q->data.vlist, obj);
 }
 
+// O(1)
 static void* vqueue_pop(queue* q) {
   assert(q != NULL);
   
@@ -130,10 +142,12 @@ static void* vqueue_pop(queue* q) {
 }
 
 
+// O(1)
 static bool lqueue_empty(queue q) {
   return llist_empty(q.data.llist);
 }
 
+// O(1)
 static bool lqueue_push(queue* q, const void* obj) {
   assert(q != NULL);
   
@@ -141,6 +155,7 @@ static bool lqueue_push(queue* q, const void* obj) {
   return true;
 }
 
+// O(1)
 static void* lqueue_pop(queue* q) {
   assert(q != NULL);
   

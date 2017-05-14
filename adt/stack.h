@@ -22,7 +22,9 @@ typedef struct stack {
   // via the allocator specified in new_*stack.
   // The delete function is called with the supplyed allocator for each contained element,
   // unless NULL is supplyed as the delete function.
-  // Complexity: O(n) where n is the number of elements in the stack.
+  // Complexity:
+  // On a lstack: O(n)
+  // On a vstack: O(n) when delete is not NULL. O(1) otherwise.
   void (*delete)(struct stack*, void (*delete)(allocator, void*), allocator);
   
   // Returns wether a stack contains no elements or not.
@@ -58,7 +60,9 @@ stack new_vstack(allocator, size_t);
 // via the allocator specified in new_*stack.
 // The delete function is called for each contained element and the supplyed allocator,
 // unless NULL is supplyed as the delete function.
-// Complexity: O(n) where n is the number of elements in the stack.
+// Complexity:
+// On a lstack: O(n)
+// On a vstack: O(n) when delete is not NULL. O(1) otherwise.
 void delete_stack(stack*, void (*delete)(allocator, void*), allocator);
 
 // Returns wether a stack contains no elements or not.

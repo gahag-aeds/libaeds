@@ -34,7 +34,9 @@ extern vectorlist new_vlist(allocator, size_t);
 // via the allocator specified in new_vlist.
 // The delete function is called with the supplyed allocator for each contained element,
 // unless NULL is supplyed as the delete function.
-// Complexity: O(n) where n is the number of elements in the list.
+// Complexity:
+// If delete is not NULL, O(n) where n is the number of elements in the list.
+// Otherwise, O(1).
 extern void delete_vlist(vectorlist*, void (*delete)(allocator, void*), allocator);
 
 // Returns wether a vector list is initialized (via a previous call to new_vlist).

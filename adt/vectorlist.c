@@ -25,14 +25,14 @@ vectorlist new_vlist(allocator allocator, size_t capacity) {
     
     .capacity = capacity,
     .data = capacity == 0 ? NULL
-                          : al_alloc(allocator, capacity, sizeof(void*)), // O(1)
+                          : al_alloc(allocator, capacity, sizeof(void*)),
     
     .head = NULL,
     .tail = NULL
   };
 }
 
-// O(n)
+// O(n) when delete is not NULL. O(1) otherwise.
 void delete_vlist(
   vectorlist* list,
   void (*delete)(allocator, void*),
@@ -41,7 +41,7 @@ void delete_vlist(
   assert(list != NULL);
   
   if (list->head != NULL && delete != NULL) {
-    for (void** ptr = list->head; ptr != list->tail; ptr = vlist_advance(*list, ptr))
+    for (void** ptr = list->head; ptr != list->tail; ptr = vlist_advance(*list, ptr)) // O(n)
       delete(allocator, *ptr);  // O(1)
     
     delete(allocator, *list->tail); // O(1)
@@ -50,7 +50,7 @@ void delete_vlist(
   al_dealloc(list->allocator, list->data);
   
   *list = (vectorlist) {
-    .allocator = null_allocator(), // O(1)
+    .allocator = null_allocator(),
     
     .capacity = 0,
     .data = NULL,
