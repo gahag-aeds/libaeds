@@ -3,6 +3,7 @@
 #include <assert.h>
 
 
+// O(n)
 bool file_skip_line(FILE* stream) {
   assert(stream != NULL);
   
