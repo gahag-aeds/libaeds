@@ -3,6 +3,8 @@
 #include <assert.h>
 #include <string.h>
 
+#include <libaeds/array.h>
+
 
 // Worst: O(n)
 argvhandler new_argvhandler(
@@ -48,6 +50,8 @@ argvresults new_argvresults(allocator allocator, size_t argv_size) {
   assert(argv_size != 0);
   
   return (argvresults) {
+    .allocator = allocator,
+    
     .argv_size = argv_size,
     .data = al_alloc(allocator, argv_size, sizeof(int))
   };
@@ -79,7 +83,7 @@ static argvhandler* extract_argv_handler(
   
   // Find the handler for the exact number of arguments.
   // argv_dimensions should not be a big array, linear search is ok.
-  for (size_t i = 0; i < argv_combinations; i++) { // O(n)
+  foreach_ix (i, 0, argv_combinations) { // O(n)
     assert(argv_handlers[i].handlers != NULL);
     
     if (argv_handlers[i].argv_size != argv_size) // Delete the handlers that don't match.
@@ -124,7 +128,7 @@ bool handle_args(
   void* parameter = argv_handler->parameter;
   
   if (results == NULL)  // O(argv_size)
-    for (size_t i = 0; i < argv_size; i++) { // O(argv_size)
+    foreach_ix (i, 0, argv_size) { // O(argv_size)
       arghandler handler = argv_handler->handlers[i];
     
       if (handler != NULL)
@@ -133,7 +137,7 @@ bool handle_args(
   else {  // O(argv_size)
     *results = new_argvresults(allocator, argv_size); // O(1)
     
-    for (size_t i = 0; i < argv_size; i++) { // O(argv_size)
+    foreach_ix (i, 0, argv_size) { // O(argv_size)
       arghandler handler = argv_handler->handlers[i];
       
       results->data[i] = handler == NULL ? 0

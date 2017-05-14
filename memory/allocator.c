@@ -44,8 +44,6 @@ void* al_realloc(allocator allocator, void* ptr, size_t num, size_t size) {
 }
 
 void al_dealloc(allocator allocator, void* ptr) {
-  assert(allocator.deallocate != NULL);
-  
   allocator.deallocate(ptr, allocator.data);
 }
 
