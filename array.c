@@ -3,7 +3,7 @@
 #include <assert.h>
 
 
-// O(1)
+// O(n)
 void array_fill(size_t size, void* array[static size], void* value) {
   assert(array != NULL);
   

@@ -68,7 +68,9 @@ extern void delete_argvresults(argvresults*);
 // If `results` is not NULL, it is initialized with new_argvresults, and the results of the
 // handlers are collected. It must be deleted by the caller with delete_argvresults.
 // Returns wether a matching handler was found.
-// Complexity: O(argv_size + argv_combinations)
+// Complexity:
+// O(argv_size + argv_combinations) if a handler matches the argv_size.
+// O(argv_combinations) otherwise.
 extern bool handle_args(
   allocator, argvresults* results,
   size_t argv_size, char* argv[static argv_size],

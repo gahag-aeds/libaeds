@@ -31,7 +31,9 @@
 //   * The pointer was previously deallocated by al_dealloc.
 //   * The pointer was not previously allocated via al_alloc with the same pool.
 //   
-// - All operations: al_alloc, al_alloc_clear, al_dealloc are O(1).
+// - Complexity:
+//   * al_alloc, al_dealloc: O(1)
+//   * al_alloc_clear: Worst O(n)
 //
 // Complexity: O(n)
 // The space consumed by the vpool is approximately:
@@ -47,6 +49,7 @@ extern allocator new_vpool(
 // Supplying a NULL pointer results in assertion failure when assertion is enabled,
 // otherwise, undefined behavior.
 // Supplying a pointer to a previously deleted stack is undefined behavior.
+// Complexity: O(1)
 extern void delete_vpool(allocator*);
 
 

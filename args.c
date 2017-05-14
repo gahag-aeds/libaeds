@@ -100,7 +100,8 @@ static argvhandler* extract_argv_handler(
   return argv_handler;
 }
 
-// O(argv_combinations + argv_size)
+// O(argv_combinations + argv_size) if a handler matches the argv_size.
+// O(argv_combinations) otherwise.
 bool handle_args(
   allocator allocator, argvresults* results,
   size_t argv_size, char* argv[static argv_size],

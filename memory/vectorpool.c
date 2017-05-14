@@ -86,6 +86,7 @@ static void* vpool_allocate(size_t num, size_t size, void* _data) {
   return stack_pop(&data->free_elements); // O(1)
 }
 
+// Worst O(n)
 static void* vpool_allocate_clear(size_t num, size_t size, void* _data) {
   assert(_data != NULL);
   assert(num == 1 && size == ((vpooldata*) _data)->elem_size);
@@ -95,12 +96,13 @@ static void* vpool_allocate_clear(size_t num, size_t size, void* _data) {
   if (num != 1 || size != data->elem_size)
     return NULL;
   
-  void* ptr = stack_pop(&data->free_elements);
+  void* ptr = stack_pop(&data->free_elements); // O(1)
   
   return ptr == NULL ? NULL
-                     : memset(ptr, 0, data->elem_size);
+                     : memset(ptr, 0, data->elem_size); // Worst O(n)
 }
 
+// O(1)
 static void vpool_deallocate(void* ptr, void* _data) {
   if (ptr == NULL)
     return;
@@ -108,8 +110,9 @@ static void vpool_deallocate(void* ptr, void* _data) {
   vpooldata* data = _data;
   
   assert(_data != NULL);
-  assert(ptr >= data->vector && ptr <= data->vector + ((data->size - 1) * data->elem_size));
+  assert(ptr >= data->vector &&
+         ptr <= data->vector + ((data->size - 1) * data->elem_size));
   
-  if (!stack_push(&data->free_elements, ptr))
+  if (!stack_push(&data->free_elements, ptr)) // O(1)
     assert(false);
 }
