@@ -4,27 +4,38 @@
 #include <string.h>
 
 
+// Worst: O(n)
 argvhandler new_argvhandler(
   allocator allocator,
   size_t argv_size,
   void* param,
-  arg_handler handlers[static argv_size]
+  arghandler handlers[static argv_size]
 ) {
+  assert(argv_size != 0);
+  assert(handlers != NULL);
+  
   argvhandler handler = {
+    .allocator = allocator,
+    
     .argv_size = argv_size,
     .parameter = param,
-    .handlers = al_alloc(allocator, argv_size, sizeof(arg_handler))
+    .handlers = al_alloc(allocator, argv_size, sizeof(arghandler))
   };
   
-  memcpy(handler.handlers, handlers, argv_size * sizeof(arg_handler));
+  memcpy(handler.handlers, handlers, argv_size * sizeof(arghandler));
   
   return handler;
 }
 
-void delete_argvhandler(allocator allocator, argvhandler* handler) {
-  al_dealloc(allocator, handler->handlers);
+// O(1)
+void delete_argvhandler(argvhandler* handler) {
+  assert(handler != NULL);
+  
+  al_dealloc(handler->allocator, handler->handlers);
   
   *handler = (argvhandler) {
+    .allocator = null_allocator(),
+    
     .argv_size = 0,
     .parameter = NULL,
     .handlers = NULL
@@ -32,78 +43,104 @@ void delete_argvhandler(allocator allocator, argvhandler* handler) {
 }
 
 
+// O(1)
 argvresults new_argvresults(allocator allocator, size_t argv_size) {
+  assert(argv_size != 0);
+  
   return (argvresults) {
     .argv_size = argv_size,
     .data = al_alloc(allocator, argv_size, sizeof(int))
   };
 }
 
-void delete_argvresults(allocator allocator, argvresults* results) {
-  al_dealloc(allocator, results->data);
+// O(1)
+void delete_argvresults(argvresults* results) {
+  assert(results != NULL);
+  
+  al_dealloc(results->allocator, results->data);
   
   *results = (argvresults) {
+    .allocator = null_allocator(),
+    
     .argv_size = 0,
     .data = NULL
   };
 }
 
 
-bool handle_args(
-  allocator allocator, argvresults* results,
-  size_t argv_size, char* argv[static argv_size],
-  size_t argv_combinations, argvhandler handlers[static argv_combinations]
+// Find the handler for the exact number of arguments. Deletes the remaining handlers.
+// O(n) where n is the number of elements in argv_handlers
+static argvhandler* extract_argv_handler(
+  size_t argv_size,
+  size_t argv_combinations,
+  argvhandler argv_handlers[static argv_combinations]
 ) {
-  assert(
-    argv != NULL && argv_size > 0 &&
-    handlers != NULL && argv_combinations > 0
-  );
-  
-  argvhandler* handler = NULL;
+  argvhandler* argv_handler = NULL;
   
   // Find the handler for the exact number of arguments.
   // argv_dimensions should not be a big array, linear search is ok.
-  for (size_t i = 0; i < argv_combinations; i++) {
-    assert(handlers[i].handlers != NULL);
+  for (size_t i = 0; i < argv_combinations; i++) { // O(n)
+    assert(argv_handlers[i].handlers != NULL);
     
-    if (handlers[i].argv_size != argv_size) // Delete the handlers that don't match.
-      delete_argvhandler(allocator, &handlers[i]);
+    if (argv_handlers[i].argv_size != argv_size) // Delete the handlers that don't match.
+      delete_argvhandler(&argv_handlers[i]);  // O(1)
     else {
-      handler = &handlers[i]; // Found correct handler.
+      argv_handler = &argv_handlers[i]; // Found correct handler. O(1)
       
       // Just delete the remaining handlers.
-      for (i = i + 1; i < argv_combinations; i++) {
-        assert(handlers[i].handlers != NULL);
-        delete_argvhandler(allocator, &handlers[i]);
+      for (i = i + 1; i < argv_combinations; i++) { // O(n - i)
+        assert(argv_handlers[i].handlers != NULL);
+        delete_argvhandler(&argv_handlers[i]); // O(1)
       }
       
       break;
     }
   }
   
-  if (handler == NULL)  // No matching handler found.
+  return argv_handler;
+}
+
+// O(argv_combinations + argv_size)
+bool handle_args(
+  allocator allocator, argvresults* results,
+  size_t argv_size, char* argv[static argv_size],
+  size_t argv_combinations, argvhandler argv_handlers[static argv_combinations]
+) {
+  assert(
+    argv != NULL && argv_size > 0 &&
+    argv_handlers != NULL && argv_combinations > 0
+  );
+  
+  argvhandler* argv_handler = extract_argv_handler(
+    argv_size,
+    argv_combinations,
+    argv_handlers
+  );  // O(argv_combinations)
+  
+  if (argv_handler == NULL)  // No matching handler found.
     return false;
   
+  void* parameter = argv_handler->parameter;
   
-  if (results == NULL)
-    for (size_t i = 0; i < argv_size; i++) {
-      arg_handler arg_handler = handler->handlers[i];
+  if (results == NULL)  // O(argv_size)
+    for (size_t i = 0; i < argv_size; i++) { // O(argv_size)
+      arghandler handler = argv_handler->handlers[i];
     
-      if (arg_handler != NULL)
-        arg_handler(argv[i], handler->parameter);
+      if (handler != NULL)
+        handler(argv[i], parameter);
     }
-  else {
-    *results = new_argvresults(allocator, argv_size);
+  else {  // O(argv_size)
+    *results = new_argvresults(allocator, argv_size); // O(1)
     
-    for (size_t i = 0; i < argv_size; i++) {
-      arg_handler arg_handler = handler->handlers[i];
+    for (size_t i = 0; i < argv_size; i++) { // O(argv_size)
+      arghandler handler = argv_handler->handlers[i];
       
-      results->data[i] = arg_handler == NULL ? 0
-                                             : arg_handler(argv[i], handler->parameter);
+      results->data[i] = handler == NULL ? 0
+                                         : handler(argv[i], parameter); // O(1)
     }
   }
   
-  delete_argvhandler(allocator, handler);
+  delete_argvhandler(argv_handler); // O(1)
   
   return true;
 }
