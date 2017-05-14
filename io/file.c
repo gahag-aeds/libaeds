@@ -8,9 +8,9 @@ bool file_skip_line(FILE* stream) {
   
   int c;
   
-  do {
+  do {  // O(n)
     c = fgetc(stream);  // O(1)
-  } while(c != '\n' && c != EOF); // O(n)
+  } while(c != '\n' && c != EOF);
   
   return c != EOF;
 }

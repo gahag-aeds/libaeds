@@ -55,6 +55,7 @@ typedef struct allocator {
   // Deallocate memory previously allocated via
   // a call to allocate/allocate_clear/reallocate.
   // The data pointer of the allocator is passed as the last argument to this function.
+  // A call to al_dealloc supplying a NULL pointer is a no-op.
   void (*deallocate)(void* ptr, void* data);
   
   // Function to call when allocation error is detected.
@@ -108,6 +109,7 @@ extern void* al_alloc_clear(allocator, size_t num, size_t size);
 extern void* al_realloc(allocator, void*, size_t num, size_t size);
 
 // Deallocate memory previously allocated via a call to al_alloc/al_alloc_clear/al_realloc.
+// A call to al_dealloc supplying a NULL pointer is a no-op.
 extern void al_dealloc(allocator, void*);
 
 // Create a malloc/calloc/realloc/free allocator for the supplied memory error function.
