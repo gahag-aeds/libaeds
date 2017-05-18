@@ -94,7 +94,7 @@ queue new_vqueue(allocator allocator, size_t size) {
 void delete_queue(queue* q, void (*delete)(allocator, void*), allocator allocator) {
   assert(q != NULL && q->delete != NULL);
   
-  return q->delete(q, delete, allocator);
+  q->delete(q, delete, allocator);
 }
 
 

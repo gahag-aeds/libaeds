@@ -93,7 +93,7 @@ stack new_vstack(allocator allocator, size_t size) {
 void delete_stack(stack* s, void (*delete)(allocator, void*), allocator allocator) {
   assert(s != NULL && s->delete != NULL);
   
-  return s->delete(s, delete, allocator); // O(n)
+  s->delete(s, delete, allocator); // O(n)
 }
 
 
