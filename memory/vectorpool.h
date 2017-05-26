@@ -38,8 +38,8 @@
 // Complexity: O(n)
 // The space consumed by the vpool is approximately:
 // (`size` * `elem_size`) + (`size` * sizeof(void*))
-extern allocator new_vpool(
-  allocator,
+extern Allocator new_vpool(
+  Allocator,
   size_t size,
   size_t elem_size,
   void (*mem_error)(void)
@@ -50,7 +50,7 @@ extern allocator new_vpool(
 // otherwise, undefined behavior.
 // Supplying a pointer to a previously deleted stack is undefined behavior.
 // Complexity: O(1)
-extern void delete_vpool(allocator*);
+extern void delete_vpool(Allocator*);
 
 
 #endif /* __MEMORY_VECTOR_POOL_H__ */

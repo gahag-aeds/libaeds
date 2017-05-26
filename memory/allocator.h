@@ -8,7 +8,7 @@
 // and error handling when a memory allocation fails.
 // The member functions of an allocator should not be called directly.
 // Use the helper functions below instead.
-typedef struct allocator {
+typedef struct Allocator {
   // A pointer to the data internally used by the allocator.
   // If the allocator uses no additional data, this should be NULL.
   void* data;
@@ -61,7 +61,7 @@ typedef struct allocator {
   // Function to call when allocation error is detected.
   // The data pointer of the allocator is passed as the last argument to this function.
   void (*mem_error)(void);
-} allocator;
+} Allocator;
 
 
 // Allocate an array of `num` elements of the specified size in memory,
@@ -73,7 +73,7 @@ typedef struct allocator {
 // some point, otherwise a memory leak occurs.
 // If the allocation fails, returning a null pointer,
 // the allocator.mem_error function, if not null, is called.
-extern void* al_alloc(allocator, size_t num, size_t size);
+extern void* al_alloc(Allocator, size_t num, size_t size);
 
 // Allocate an array of `num` elements of the specified size in memory,
 // using the provided allocator.
@@ -85,7 +85,7 @@ extern void* al_alloc(allocator, size_t num, size_t size);
 // The allocated memory is guaranteed to be 0 initialized.
 // If the allocation fails, returning a null pointer,
 // the allocator.mem_error function, if not null, is called.
-extern void* al_alloc_clear(allocator, size_t num, size_t size);
+extern void* al_alloc_clear(Allocator, size_t num, size_t size);
 
 // Reallocate previosly allocated memory, with new dimensions of `num` elements of the
 // specified size in memory, using the provided allocator.
@@ -106,20 +106,20 @@ extern void* al_alloc_clear(allocator, size_t num, size_t size);
 // some point, otherwise a memory leak occurs.
 // If the allocation fails, returning a null pointer, the allocator.mem_error function,
 // if not null, is called. The original memory is not deallocated if the allocation fails.
-extern void* al_realloc(allocator, void*, size_t num, size_t size);
+extern void* al_realloc(Allocator, void*, size_t num, size_t size);
 
 // Deallocate memory previously allocated via a call to al_alloc/al_alloc_clear/al_realloc.
 // A call to al_dealloc supplying a NULL pointer is a no-op.
-extern void al_dealloc(allocator, void*);
+extern void al_dealloc(Allocator, void*);
 
 // Create a malloc/calloc/realloc/free allocator for the supplied memory error function.
 // If a null pointer is supplyed as the memory error function,
 // memory allocation failure is ignored, returning a null pointer.
-extern allocator std_allocator(void (*mem_error)(void));
+extern Allocator std_allocator(void (*mem_error)(void));
 
 // Create a allocator with all functions set to NULL.
 // Usefull for invalidating an allocator.
-extern allocator null_allocator(void);
+extern Allocator null_allocator(void);
 
 
 #endif /* __MEMORY_ALLOCATOR_H__ */

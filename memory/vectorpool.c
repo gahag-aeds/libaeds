@@ -8,15 +8,15 @@
 #include <libaeds/array.h>
 
 
-typedef struct vpooldata {
-  allocator allocator;
+typedef struct VPoolData {
+  Allocator allocator;
   
   size_t elem_size
        , size;
   
   void* vector;
-  stack free_elements;
-} vpooldata;
+  Stack free_elements;
+} VPoolData;
 
 
 static void* vpool_allocate(size_t, size_t, void*);
@@ -25,12 +25,12 @@ static void vpool_deallocate(void*, void*);
 
 
 // O(n)
-allocator new_vpool(allocator al, size_t size, size_t elem_size, void (*mem_error)(void)) {
+Allocator new_vpool(Allocator al, size_t size, size_t elem_size, void (*mem_error)(void)) {
   assert(elem_size > 0 && size > 0);
   
-  vpooldata* data = al_alloc(al, 1, sizeof(vpooldata));
+  VPoolData* data = al_alloc(al, 1, sizeof(*data));
   
-  *data = (vpooldata) {
+  *data = (VPoolData) {
     .allocator = al,
     
     .elem_size = elem_size,
@@ -44,7 +44,7 @@ allocator new_vpool(allocator al, size_t size, size_t elem_size, void (*mem_erro
     if (!stack_push(&data->free_elements, data->vector + (i * data->elem_size))) // O(1)
       assert(false);
   
-  return (allocator) {
+  return (Allocator) {
     .data = data,
     
     .allocate       = vpool_allocate,
@@ -56,14 +56,14 @@ allocator new_vpool(allocator al, size_t size, size_t elem_size, void (*mem_erro
 }
 
 // O(1)
-void delete_vpool(allocator* vpool) {
+void delete_vpool(Allocator* vpool) {
   assert(vpool != NULL);
   
-  vpooldata* data = (vpooldata*) vpool->data;
+  VPoolData* data = (VPoolData*) vpool->data;
   
   assert(data != NULL);
   
-  allocator al = data->allocator;
+  Allocator al = data->allocator;
   
   al_dealloc(al, data->vector);
   delete_stack(&data->free_elements, NULL, null_allocator()); // O(1)
@@ -76,9 +76,9 @@ void delete_vpool(allocator* vpool) {
 // O(1)
 static void* vpool_allocate(size_t num, size_t size, void* _data) {
   assert(_data != NULL);
-  assert(num == 1 && size == ((vpooldata*) _data)->elem_size);
+  assert(num == 1 && size == ((VPoolData*) _data)->elem_size);
   
-  vpooldata* data = _data;
+  VPoolData* data = _data;
   
   if (num != 1 || size != data->elem_size)
     return NULL;
@@ -89,9 +89,9 @@ static void* vpool_allocate(size_t num, size_t size, void* _data) {
 // Worst O(n)
 static void* vpool_allocate_clear(size_t num, size_t size, void* _data) {
   assert(_data != NULL);
-  assert(num == 1 && size == ((vpooldata*) _data)->elem_size);
+  assert(num == 1 && size == ((VPoolData*) _data)->elem_size);
   
-  vpooldata* data = _data;
+  VPoolData* data = _data;
   
   if (num != 1 || size != data->elem_size)
     return NULL;
@@ -107,7 +107,7 @@ static void vpool_deallocate(void* ptr, void* _data) {
   if (ptr == NULL)
     return;
   
-  vpooldata* data = _data;
+  VPoolData* data = _data;
   
   assert(_data != NULL);
   assert(ptr >= data->vector &&

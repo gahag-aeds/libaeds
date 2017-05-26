@@ -9,12 +9,12 @@
 #include <libaeds/adt/vectorlist.h>
 
 
-typedef struct stack {
-  storagetype type; // Indicates the type of the data structure used for storage.
+typedef struct Stack {
+  StorageType type; // Indicates the type of the data structure used for storage.
   
   union {
-    linkedlist llist;
-    vectorlist vlist;
+    LinkedList llist;
+    VectorList vlist;
   } data; // The data structure used for storage.
   
   
@@ -25,23 +25,23 @@ typedef struct stack {
   // Complexity:
   // On a lstack: O(n)
   // On a vstack: O(n) when delete is not NULL. O(1) otherwise.
-  void (*delete)(struct stack*, void (*delete)(allocator, void*), allocator);
+  void (*delete)(struct Stack*, void (*delete)(Allocator, void*), Allocator);
   
   // Returns wether a stack contains no elements or not.
   // Complexity: O(1)
-  bool (*empty)(struct stack);
+  bool (*empty)(struct Stack);
   
   // Pushes an element to a stack.
   // Returns wether the operation succeeded.
   // This operation fails if a vector list is used as storage, and the list is full.
   // Complexity: O(1)
-  bool (*push)(struct stack*, const void*);
+  bool (*push)(struct Stack*, const void*);
   // Pops an element from a stack.
   // Returns NULL if the operation fails.
   // This operation fails if the stack is empty.
   // Complexity: O(1)
-  void* (*pop)(struct stack*);
-} stack;
+  void* (*pop)(struct Stack*);
+} Stack;
 
 
 // Creates a stack that uses a linked list as storage.
@@ -50,11 +50,11 @@ typedef struct stack {
 // Therefore, it supports any allocator that
 // provides `al_alloc(allocator, 1, sizeof(*node))` and the correspondent al_dealloc.
 // Complexity: O(1)
-stack new_lstack(allocator);
+Stack new_lstack(Allocator);
 // Creates a stack that uses a vector list of the specified size as storage.
 // The vector list will use the supplyed allocator for memory operations.
 // Complexity: O(1)
-stack new_vstack(allocator, size_t);
+Stack new_vstack(Allocator, size_t);
 
 // Delete a stack, deallocating the memory used by the stack
 // via the allocator specified in new_*stack.
@@ -63,22 +63,22 @@ stack new_vstack(allocator, size_t);
 // Complexity:
 // On a lstack: O(n)
 // On a vstack: O(n) when delete is not NULL. O(1) otherwise.
-void delete_stack(stack*, void (*delete)(allocator, void*), allocator);
+void delete_stack(Stack*, void (*delete)(Allocator, void*), Allocator);
 
 // Returns wether a stack contains no elements or not.
 // Complexity: O(1)
-bool stack_empty(stack);
+bool stack_empty(Stack);
 
 // Pushes an element to a stack.
 // Returns wether the operation succeeded.
 // This operation fails if a vector list is used as storage, and the list is full.
 // Complexity: O(1)
-bool stack_push(stack*, const void*);
+bool stack_push(Stack*, const void*);
 // Pops an element from a stack.
 // Returns NULL if the operation fails.
 // This operation fails if the stack is empty.
 // Complexity: O(1)
-void* stack_pop(stack*);
+void* stack_pop(Stack*);
 
 
 #endif /* __STACK_H__ */

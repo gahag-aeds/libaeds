@@ -5,13 +5,13 @@
 
 
 // O(1)
-void** vlist_advance(vectorlist list, void** ptr) {
+void** vlist_advance(VectorList list, void** ptr) {
   return ptr + 1 >= (list.data + list.capacity) ? list.data
                                                 : ptr + 1;
 }
 
 // O(1)
-void** vlist_retreat(vectorlist list, void** ptr) {
+void** vlist_retreat(VectorList list, void** ptr) {
   return ptr <= list.data ? list.data + list.capacity - 1
                           : ptr - 1;
 }
@@ -19,8 +19,8 @@ void** vlist_retreat(vectorlist list, void** ptr) {
 
 
 // O(1)
-vectorlist new_vlist(allocator allocator, size_t capacity) {
-  return (vectorlist) {
+VectorList new_vlist(Allocator allocator, size_t capacity) {
+  return (VectorList) {
     .allocator = allocator,
     
     .capacity = capacity,
@@ -34,9 +34,9 @@ vectorlist new_vlist(allocator allocator, size_t capacity) {
 
 // O(n) when delete is not NULL. O(1) otherwise.
 void delete_vlist(
-  vectorlist* list,
-  void (*delete)(allocator, void*),
-  allocator allocator
+  VectorList* list,
+  void (*delete)(Allocator, void*),
+  Allocator allocator
 ) {
   assert(list != NULL);
   
@@ -49,7 +49,7 @@ void delete_vlist(
   
   al_dealloc(list->allocator, list->data);
   
-  *list = (vectorlist) {
+  *list = (VectorList) {
     .allocator = null_allocator(),
     
     .capacity = 0,
@@ -62,17 +62,17 @@ void delete_vlist(
 
 
 // O(1)
-bool vlist_initialized(vectorlist list) {
+bool vlist_initialized(VectorList list) {
   return list.data != NULL;
 }
 
 // O(1)
-bool vlist_empty(vectorlist list) {
+bool vlist_empty(VectorList list) {
   return list.head == NULL;
 }
 
 // O(1)
-bool vlist_full(vectorlist list) {
+bool vlist_full(VectorList list) {
   return !vlist_empty(list)
       && list.tail != NULL
       && list.head == vlist_advance(list, list.tail); // O(1)
@@ -81,7 +81,7 @@ bool vlist_full(vectorlist list) {
 
 
 // O(1)
-bool vlist_push_head(vectorlist* list, const void* obj) {
+bool vlist_push_head(VectorList* list, const void* obj) {
   assert(list != NULL);
   
   if (!vlist_initialized(*list) || obj == NULL || vlist_full(*list)) // O(1)
@@ -98,7 +98,7 @@ bool vlist_push_head(vectorlist* list, const void* obj) {
 }
 
 // O(1)
-bool vlist_push_tail(vectorlist* list, const void* obj) {
+bool vlist_push_tail(VectorList* list, const void* obj) {
   assert(list != NULL);
   
   if (!vlist_initialized(*list) || obj == NULL || vlist_full(*list))  // O(1)
@@ -116,7 +116,7 @@ bool vlist_push_tail(vectorlist* list, const void* obj) {
 
 
 // O(1)
-void* vlist_pop_head(vectorlist* list) {
+void* vlist_pop_head(VectorList* list) {
   assert(list != NULL);
   
   if (!vlist_initialized(*list) || vlist_empty(*list))  // O(1)
@@ -133,7 +133,7 @@ void* vlist_pop_head(vectorlist* list) {
 }
 
 // O(1)
-void* vlist_pop_tail(vectorlist* list) {
+void* vlist_pop_tail(VectorList* list) {
   assert(list != NULL);
   
   if (!vlist_initialized(*list) || vlist_empty(*list))  // O(1)

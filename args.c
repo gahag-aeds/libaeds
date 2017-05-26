@@ -7,35 +7,35 @@
 
 
 // Worst: O(n)
-argvhandler new_argvhandler(
-  allocator allocator,
+ArgVHandler new_argvhandler(
+  Allocator allocator,
   size_t argv_size,
   void* param,
-  arghandler handlers[static argv_size]
+  ArgHandler handlers[static argv_size]
 ) {
   assert(argv_size != 0);
   assert(handlers != NULL);
   
-  argvhandler handler = {
+  ArgVHandler handler = {
     .allocator = allocator,
     
     .argv_size = argv_size,
     .parameter = param,
-    .handlers = al_alloc(allocator, argv_size, sizeof(arghandler))
+    .handlers = al_alloc(allocator, argv_size, sizeof(ArgHandler))
   };
   
-  memcpy(handler.handlers, handlers, argv_size * sizeof(arghandler));
+  memcpy(handler.handlers, handlers, argv_size * sizeof(ArgHandler));
   
   return handler;
 }
 
 // O(1)
-void delete_argvhandler(argvhandler* handler) {
+void delete_argvhandler(ArgVHandler* handler) {
   assert(handler != NULL);
   
   al_dealloc(handler->allocator, handler->handlers);
   
-  *handler = (argvhandler) {
+  *handler = (ArgVHandler) {
     .allocator = null_allocator(),
     
     .argv_size = 0,
@@ -46,10 +46,10 @@ void delete_argvhandler(argvhandler* handler) {
 
 
 // O(1)
-argvresults new_argvresults(allocator allocator, size_t argv_size) {
+ArgVResults new_argvresults(Allocator allocator, size_t argv_size) {
   assert(argv_size != 0);
   
-  return (argvresults) {
+  return (ArgVResults) {
     .allocator = allocator,
     
     .argv_size = argv_size,
@@ -58,12 +58,12 @@ argvresults new_argvresults(allocator allocator, size_t argv_size) {
 }
 
 // O(1)
-void delete_argvresults(argvresults* results) {
+void delete_argvresults(ArgVResults* results) {
   assert(results != NULL);
   
   al_dealloc(results->allocator, results->data);
   
-  *results = (argvresults) {
+  *results = (ArgVResults) {
     .allocator = null_allocator(),
     
     .argv_size = 0,
@@ -74,12 +74,12 @@ void delete_argvresults(argvresults* results) {
 
 // Find the handler for the exact number of arguments. Deletes the remaining handlers.
 // O(n) where n is the number of elements in argv_handlers
-static argvhandler* extract_argv_handler(
+static ArgVHandler* extract_argv_handler(
   size_t argv_size,
   size_t argv_combinations,
-  argvhandler argv_handlers[static argv_combinations]
+  ArgVHandler argv_handlers[static argv_combinations]
 ) {
-  argvhandler* argv_handler = NULL;
+  ArgVHandler* argv_handler = NULL;
   
   // Find the handler for the exact number of arguments.
   // argv_dimensions should not be a big array, linear search is ok.
@@ -107,16 +107,16 @@ static argvhandler* extract_argv_handler(
 // O(argv_combinations + argv_size) if a handler matches the argv_size.
 // O(argv_combinations) otherwise.
 bool handle_args(
-  allocator allocator, argvresults* results,
+  Allocator allocator, ArgVResults* results,
   size_t argv_size, char* argv[static argv_size],
-  size_t argv_combinations, argvhandler argv_handlers[static argv_combinations]
+  size_t argv_combinations, ArgVHandler argv_handlers[static argv_combinations]
 ) {
   assert(
     argv != NULL && argv_size > 0 &&
     argv_handlers != NULL && argv_combinations > 0
   );
   
-  argvhandler* argv_handler = extract_argv_handler(
+  ArgVHandler* argv_handler = extract_argv_handler(
     argv_size,
     argv_combinations,
     argv_handlers
@@ -129,7 +129,7 @@ bool handle_args(
   
   if (results == NULL)  // O(argv_size)
     foreach_ix (i, 0, argv_size) { // O(argv_size)
-      arghandler handler = argv_handler->handlers[i];
+      ArgHandler handler = argv_handler->handlers[i];
     
       if (handler != NULL)
         handler(argv[i], parameter);
@@ -138,7 +138,7 @@ bool handle_args(
     *results = new_argvresults(allocator, argv_size); // O(1)
     
     foreach_ix (i, 0, argv_size) { // O(argv_size)
-      arghandler handler = argv_handler->handlers[i];
+      ArgHandler handler = argv_handler->handlers[i];
       
       results->data[i] = handler == NULL ? 0
                                          : handler(argv[i], parameter); // O(1)

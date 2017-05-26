@@ -9,62 +9,62 @@
 
 // A handler for an argument is a function that takes that argument
 // and an additional parameter, returning a status code.
-typedef int (*arghandler)(const char*, void*);
+typedef int (*ArgHandler)(const char*, void*);
 
 // A handler for an argv of size `argv_size` is a collection of handlers
 // for each argument in argv, plus the parameter to be supplied to those
 // handlers. Also, the allocator used to allocate the handlers vector
 // is stored to deallocate it when necessary.
-typedef struct argvhandler {
-  allocator allocator;
+typedef struct ArgVHandler {
+  Allocator allocator;
   
   size_t argv_size;
   void* parameter;
-  arghandler* handlers;
-} argvhandler;
+  ArgHandler* handlers;
+} ArgVHandler;
 
-// The results produced by an argvhandler for an argv of size `argv_size`
-// is a collection of the status codes produced by each arghandler. Also, the allocator
+// The results produced by an ArgVHandler for an argv of size `argv_size`
+// is a collection of the status codes produced by each ArgHandler. Also, the allocator
 // used to allocate the handlers vector is stored to deallocate it when necessary.
-typedef struct argvresults {
-  allocator allocator;
+typedef struct ArgVResults {
+  Allocator allocator;
   
   size_t argv_size;
   int* data;
-} argvresults;
+} ArgVResults;
 
 
 
-// Creates an argvhandler for the specified argv size,
+// Creates an ArgVHandler for the specified argv size,
 // with the specified param and handlers.
 // The produced handler must be deleted with delete_argvhandler when no longer used.
 // It uses the specified allocator for allocations.
 // Complexity: Worst O(n)
-extern argvhandler new_argvhandler(
-  allocator,
+extern ArgVHandler new_argvhandler(
+  Allocator,
   size_t argv_size,
   void* param,
-  arghandler[static argv_size]
+  ArgHandler[static argv_size]
 );
 
-// Deletes an argvhandler created with new_argvhandler.
+// Deletes an ArgVHandler created with new_argvhandler.
 // Complexity: O(1)
-extern void delete_argvhandler(argvhandler*);
+extern void delete_argvhandler(ArgVHandler*);
 
 
-// Creates an argvresults for the specified argv size.
-// The produced argvresults must be deleted with delete_argvresults when no longer used.
+// Creates an ArgVResults for the specified argv size.
+// The produced ArgVResults must be deleted with delete_argvresults when no longer used.
 // It uses the specified allocator for allocations.
 // Complexity: O(1)
-extern argvresults new_argvresults(allocator, size_t argv_size);
+extern ArgVResults new_argvresults(Allocator, size_t argv_size);
 
-// Deletes an argvresults created with new_argvresults.
+// Deletes an ArgVResults created with new_argvresults.
 // Complexity: O(1)
-extern void delete_argvresults(argvresults*);
+extern void delete_argvresults(ArgVResults*);
 
 
-// Applies the first matching argvhandler to the supplied argv.
-// A match happens if the argv_size of an argvhandler equals the size of the supplied argv.
+// Applies the first matching ArgVHandler to the supplied argv.
+// A match happens if the argv_size of an ArgVHandler equals the size of the supplied argv.
 // If `results` is not NULL, it is initialized with new_argvresults, and the results of the
 // handlers are collected. It must be deleted by the caller with delete_argvresults.
 // Returns wether a matching handler was found.
@@ -72,9 +72,9 @@ extern void delete_argvresults(argvresults*);
 // O(argv_size + argv_combinations) if a handler matches the argv_size.
 // O(argv_combinations) otherwise.
 extern bool handle_args(
-  allocator, argvresults* results,
+  Allocator, ArgVResults* results,
   size_t argv_size, char* argv[static argv_size],
-  size_t argv_combinations, argvhandler[static argv_combinations]
+  size_t argv_combinations, ArgVHandler[static argv_combinations]
 );
 
 

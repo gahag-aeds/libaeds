@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 
-void* al_alloc(allocator allocator, size_t num, size_t size) {
+void* al_alloc(Allocator allocator, size_t num, size_t size) {
   assert(allocator.allocate != NULL);
   
   void* ptr = allocator.allocate(num, size, allocator.data);
@@ -17,7 +17,7 @@ void* al_alloc(allocator allocator, size_t num, size_t size) {
   return ptr;
 }
 
-void* al_alloc_clear(allocator allocator, size_t num, size_t size) {
+void* al_alloc_clear(Allocator allocator, size_t num, size_t size) {
   assert(allocator.allocate_clear != NULL);
   
   void* ptr = allocator.allocate_clear(num, size, allocator.data);
@@ -30,7 +30,7 @@ void* al_alloc_clear(allocator allocator, size_t num, size_t size) {
   return ptr;
 }
 
-void* al_realloc(allocator allocator, void* ptr, size_t num, size_t size) {
+void* al_realloc(Allocator allocator, void* ptr, size_t num, size_t size) {
   assert(allocator.reallocate != NULL);
   
   ptr = allocator.reallocate(ptr, num, size, allocator.data);
@@ -43,7 +43,7 @@ void* al_realloc(allocator allocator, void* ptr, size_t num, size_t size) {
   return ptr;
 }
 
-void al_dealloc(allocator allocator, void* ptr) {
+void al_dealloc(Allocator allocator, void* ptr) {
   allocator.deallocate(ptr, allocator.data);
 }
 
@@ -77,8 +77,8 @@ static void std_free(void* ptr, __attribute__((unused)) void* _) {
 }
 
 
-allocator std_allocator(void (*mem_error)(void)) {
-  return (allocator) {
+Allocator std_allocator(void (*mem_error)(void)) {
+  return (Allocator) {
     .data = NULL,
     .allocate       = std_malloc,
     .allocate_clear = std_calloc,
@@ -88,8 +88,8 @@ allocator std_allocator(void (*mem_error)(void)) {
   };
 }
 
-allocator null_allocator(void) {
-  return (allocator) {
+Allocator null_allocator(void) {
+  return (Allocator) {
     .data = NULL,
     .allocate       = NULL,
     .allocate_clear = NULL,
