@@ -1,5 +1,5 @@
-#ifndef __LINKED_LIST_H__
-#define __LINKED_LIST_H__
+#ifndef __LIBAEDS_ADT_LINKED_LIST_H__
+#define __LIBAEDS_ADT_LINKED_LIST_H__
 
 #include <stdbool.h>
 
@@ -29,29 +29,29 @@ typedef struct LinkedList {
 // Therefore, it supports any allocator that
 // provides `al_alloc(allocator, 1, sizeof(ListNode))` and the correspondent al_dealloc.
 // Complexity: O(1)
-extern LinkedList new_llist(Allocator);
+LinkedList new_llist(Allocator);
 // Delete a linked list, deallocating the memory used by the list
 // via the allocator specified in new_llist.
 // The delete function is called with the supplyed allocator for each contained element,
 // unless NULL is supplyed as the delete function.
 // Complexity: O(n) where n is the number of elements in the list.
-extern void delete_llist(LinkedList*, void (*delete)(Allocator, void*), Allocator);
+void delete_llist(LinkedList*, void (*delete)(Allocator, void*), Allocator);
 
 // Returns wether a linked list contains no elements or not.
 // Complexity: O(1)
-extern bool llist_empty(LinkedList);
+bool llist_empty(LinkedList);
 
 // Pushes an element to the head of a linked list.
 // Complexity: O(1)
-extern void llist_push_head(LinkedList*, const void*);
+void llist_push_head(LinkedList*, const void*);
 // Pushes an element to the tail of a linked list.
 // Complexity: O(1)
-extern void llist_push_tail(LinkedList*, const void*);
+void llist_push_tail(LinkedList*, const void*);
 // Pops an element from the head of a linked list.
 // Returns NULL if the operation fails.
 // This operation fails if the linked list is empty.
 // Complexity: O(1)
-extern void* llist_pop_head(LinkedList*); // Pop from the head.
+void* llist_pop_head(LinkedList*); // Pop from the head.
 
 
-#endif /* __LINKED_LIST_H__ */
+#endif /* __LIBAEDS_ADT_LINKED_LIST_H__ */

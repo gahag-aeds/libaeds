@@ -1,5 +1,5 @@
-#ifndef __MEMORY_VECTOR_POOL_H__
-#define __MEMORY_VECTOR_POOL_H__
+#ifndef __LIBAEDS_MEMORY_VECTOR_POOL_H__
+#define __LIBAEDS_MEMORY_VECTOR_POOL_H__
 
 #include <libaeds/memory/allocator.h>
 
@@ -38,7 +38,7 @@
 // Complexity: O(n)
 // The space consumed by the vpool is approximately:
 // (`size` * `elem_size`) + (`size` * sizeof(void*))
-extern Allocator new_vpool(
+Allocator new_vpool(
   Allocator,
   size_t size,
   size_t elem_size,
@@ -50,7 +50,7 @@ extern Allocator new_vpool(
 // otherwise, undefined behavior.
 // Supplying a pointer to a previously deleted stack is undefined behavior.
 // Complexity: O(1)
-extern void delete_vpool(Allocator*);
+void delete_vpool(Allocator*);
 
 
-#endif /* __MEMORY_VECTOR_POOL_H__ */
+#endif /* __LIBAEDS_MEMORY_VECTOR_POOL_H__ */

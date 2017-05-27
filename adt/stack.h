@@ -1,5 +1,5 @@
-#ifndef __STACK_H__
-#define __STACK_H__
+#ifndef __LIBAEDS_ADT_STACK_H__
+#define __LIBAEDS_ADT_STACK_H__
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -81,4 +81,4 @@ bool stack_push(Stack*, const void*);
 void* stack_pop(Stack*);
 
 
-#endif /* __STACK_H__ */
+#endif /* __LIBAEDS_ADT_STACK_H__ */

@@ -1,5 +1,5 @@
-#ifndef __ARRAY_H__
-#define __ARRAY_H__
+#ifndef __LIBAEDS_ARRAY_H__
+#define __LIBAEDS_ARRAY_H__
 
 #include <stddef.h>
 
@@ -15,7 +15,7 @@
 // A for loop with a assignment is used. This guarantees the correct pointer
 // representation is assigned, opposed to using memset.
 // Complexity: O(n) where n is the size of the supplied array.
-extern void array_fill(size_t size, void* array[static size], void* value);
+void array_fill(size_t size, void* array[static size], void* value);
 
 
-#endif /* __ARRAY_H__ */
+#endif /* __LIBAEDS_ARRAY_H__ */

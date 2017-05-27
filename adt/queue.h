@@ -1,5 +1,5 @@
-#ifndef __QUEUE_H__
-#define __QUEUE_H__
+#ifndef __LIBAEDS_ADT_QUEUE_H__
+#define __LIBAEDS_ADT_QUEUE_H__
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -82,4 +82,4 @@ bool enqueue(Queue*, const void*);
 void* dequeue(Queue*);
 
 
-#endif /* __QUEUE_H__ */
+#endif /* __LIBAEDS_ADT_QUEUE_H__ */

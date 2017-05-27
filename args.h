@@ -1,5 +1,5 @@
-#ifndef __ARGS_H__
-#define __ARGS_H__
+#ifndef __LIBAEDS_ARGS_H__
+#define __LIBAEDS_ARGS_H__
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -40,7 +40,7 @@ typedef struct ArgVResults {
 // The produced handler must be deleted with delete_argvhandler when no longer used.
 // It uses the specified allocator for allocations.
 // Complexity: Worst O(n)
-extern ArgVHandler new_argvhandler(
+ArgVHandler new_argvhandler(
   Allocator,
   size_t argv_size,
   void* param,
@@ -49,18 +49,18 @@ extern ArgVHandler new_argvhandler(
 
 // Deletes an ArgVHandler created with new_argvhandler.
 // Complexity: O(1)
-extern void delete_argvhandler(ArgVHandler*);
+void delete_argvhandler(ArgVHandler*);
 
 
 // Creates an ArgVResults for the specified argv size.
 // The produced ArgVResults must be deleted with delete_argvresults when no longer used.
 // It uses the specified allocator for allocations.
 // Complexity: O(1)
-extern ArgVResults new_argvresults(Allocator, size_t argv_size);
+ArgVResults new_argvresults(Allocator, size_t argv_size);
 
 // Deletes an ArgVResults created with new_argvresults.
 // Complexity: O(1)
-extern void delete_argvresults(ArgVResults*);
+void delete_argvresults(ArgVResults*);
 
 
 // Applies the first matching ArgVHandler to the supplied argv.
@@ -71,11 +71,11 @@ extern void delete_argvresults(ArgVResults*);
 // Complexity:
 // O(argv_size + argv_combinations) if a handler matches the argv_size.
 // O(argv_combinations) otherwise.
-extern bool handle_args(
+bool handle_args(
   Allocator, ArgVResults* results,
   size_t argv_size, char* argv[static argv_size],
   size_t argv_combinations, ArgVHandler[static argv_combinations]
 );
 
 
-#endif /* __ARGS_H__ */
+#endif /* __LIBAEDS_ARGS_H__ */

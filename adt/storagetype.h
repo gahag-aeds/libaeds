@@ -1,5 +1,5 @@
-#ifndef __STORAGETYPE_H_
-#define __STORAGETYPE_H_
+#ifndef __LIBAEDS_ADT_STORAGETYPE_H_
+#define __LIBAEDS_ADT_STORAGETYPE_H_
 
 
 // Specification of the type of storage used by some data structures.
@@ -9,4 +9,4 @@ typedef enum {
 } StorageType;
 
 
-#endif /* __STORAGETYPE_H_ */
+#endif /* __LIBAEDS_ADT_STORAGETYPE_H_ */

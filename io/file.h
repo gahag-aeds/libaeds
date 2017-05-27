@@ -1,5 +1,5 @@
-#ifndef __IO_FILE_H__
-#define __IO_FILE_H__
+#ifndef __LIBAEDS_IO_FILE_H__
+#define __LIBAEDS_IO_FILE_H__
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -9,7 +9,7 @@
 // The newline character is also skipped.
 // Returns wether EOF was not reached.
 // Complexity: O(n) where n is the number of characters preceding the line break.
-extern bool file_skip_line(FILE*);
+bool file_skip_line(FILE*);
 
 
-#endif /* __IO_FILE_H__ */
+#endif /* __LIBAEDS_IO_FILE_H__ */
