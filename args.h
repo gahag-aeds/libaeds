@@ -16,7 +16,7 @@ typedef int (*ArgHandler)(const char*, void*);
 // handlers. Also, the allocator used to allocate the handlers vector
 // is stored to deallocate it when necessary.
 typedef struct ArgVHandler {
-  Allocator allocator;
+  const Allocator* allocator;
   
   size_t argv_size;
   void* parameter;
@@ -27,7 +27,7 @@ typedef struct ArgVHandler {
 // is a collection of the status codes produced by each ArgHandler. Also, the allocator
 // used to allocate the handlers vector is stored to deallocate it when necessary.
 typedef struct ArgVResults {
-  Allocator allocator;
+  const Allocator* allocator;
   
   size_t argv_size;
   int* data;
@@ -41,7 +41,7 @@ typedef struct ArgVResults {
 // It uses the specified allocator for allocations.
 // Complexity: Worst O(n)
 ArgVHandler new_argvhandler(
-  Allocator,
+  const Allocator*,
   size_t argv_size,
   void* param,
   ArgHandler[static argv_size]
@@ -56,7 +56,7 @@ void delete_argvhandler(ArgVHandler*);
 // The produced ArgVResults must be deleted with delete_argvresults when no longer used.
 // It uses the specified allocator for allocations.
 // Complexity: O(1)
-ArgVResults new_argvresults(Allocator, size_t argv_size);
+ArgVResults new_argvresults(const Allocator*, size_t argv_size);
 
 // Deletes an ArgVResults created with new_argvresults.
 // Complexity: O(1)
@@ -72,7 +72,7 @@ void delete_argvresults(ArgVResults*);
 // O(argv_size + argv_combinations) if a handler matches the argv_size.
 // O(argv_combinations) otherwise.
 bool handle_args(
-  Allocator, ArgVResults* results,
+  const Allocator*, ArgVResults* results,
   size_t argv_size, char* argv[static argv_size],
   size_t argv_combinations, ArgVHandler[static argv_combinations]
 );

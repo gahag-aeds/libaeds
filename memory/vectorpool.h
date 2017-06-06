@@ -39,7 +39,7 @@
 // The space consumed by the vpool is approximately:
 // (`size` * `elem_size`) + (`size` * sizeof(void*))
 Allocator new_vpool(
-  Allocator,
+  const Allocator*,
   size_t size,
   size_t elem_size,
   void (*mem_error)(void)

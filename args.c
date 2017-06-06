@@ -8,11 +8,12 @@
 
 // Worst: O(n)
 ArgVHandler new_argvhandler(
-  Allocator allocator,
+  const Allocator* allocator,
   size_t argv_size,
   void* param,
   ArgHandler handlers[static argv_size]
 ) {
+  assert(allocator != NULL);
   assert(argv_size != 0);
   assert(handlers != NULL);
   
@@ -36,7 +37,7 @@ void delete_argvhandler(ArgVHandler* handler) {
   al_dealloc(handler->allocator, handler->handlers);
   
   *handler = (ArgVHandler) {
-    .allocator = null_allocator(),
+    .allocator = NULL,
     
     .argv_size = 0,
     .parameter = NULL,
@@ -46,7 +47,8 @@ void delete_argvhandler(ArgVHandler* handler) {
 
 
 // O(1)
-ArgVResults new_argvresults(Allocator allocator, size_t argv_size) {
+ArgVResults new_argvresults(const Allocator* allocator, size_t argv_size) {
+  assert(allocator != NULL);
   assert(argv_size != 0);
   
   return (ArgVResults) {
@@ -64,7 +66,7 @@ void delete_argvresults(ArgVResults* results) {
   al_dealloc(results->allocator, results->data);
   
   *results = (ArgVResults) {
-    .allocator = null_allocator(),
+    .allocator = NULL,
     
     .argv_size = 0,
     .data = NULL
@@ -107,10 +109,11 @@ static ArgVHandler* extract_argv_handler(
 // O(argv_combinations + argv_size) if a handler matches the argv_size.
 // O(argv_combinations) otherwise.
 bool handle_args(
-  Allocator allocator, ArgVResults* results,
+  const Allocator* allocator, ArgVResults* results,
   size_t argv_size, char* argv[static argv_size],
   size_t argv_combinations, ArgVHandler argv_handlers[static argv_combinations]
 ) {
+  assert(allocator != NULL);
   assert(
     argv != NULL && argv_size > 0 &&
     argv_handlers != NULL && argv_combinations > 0

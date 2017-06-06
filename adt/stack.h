@@ -25,7 +25,7 @@ typedef struct Stack {
   // Complexity:
   // On a lstack: O(n)
   // On a vstack: O(n) when delete is not NULL. O(1) otherwise.
-  void (*delete)(struct Stack*, void (*delete)(Allocator, void*), Allocator);
+  void (*delete)(struct Stack*, void (*delete)(const Allocator*, void*), const Allocator*);
   
   // Returns wether a stack contains no elements or not.
   // Complexity: O(1)
@@ -50,11 +50,11 @@ typedef struct Stack {
 // Therefore, it supports any allocator that
 // provides `al_alloc(allocator, 1, sizeof(*node))` and the correspondent al_dealloc.
 // Complexity: O(1)
-Stack new_lstack(Allocator);
+Stack new_lstack(const Allocator*);
 // Creates a stack that uses a vector list of the specified size as storage.
 // The vector list will use the supplyed allocator for memory operations.
 // Complexity: O(1)
-Stack new_vstack(Allocator, size_t);
+Stack new_vstack(const Allocator*, size_t);
 
 // Delete a stack, deallocating the memory used by the stack
 // via the allocator specified in new_*stack.
@@ -63,7 +63,7 @@ Stack new_vstack(Allocator, size_t);
 // Complexity:
 // On a lstack: O(n)
 // On a vstack: O(n) when delete is not NULL. O(1) otherwise.
-void delete_stack(Stack*, void (*delete)(Allocator, void*), Allocator);
+void delete_stack(Stack*, void (*delete)(const Allocator*, void*), const Allocator*);
 
 // Returns wether a stack contains no elements or not.
 // Complexity: O(1)

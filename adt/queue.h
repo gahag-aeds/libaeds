@@ -26,7 +26,7 @@ typedef struct Queue {
   // Complexity:
   // On a lqueue: O(n)
   // On a vqueue: O(n) when delete is not NULL. O(1) otherwise.
-  void (*delete)(struct Queue*, void (*delete)(Allocator, void*), Allocator);
+  void (*delete)(struct Queue*, void (*delete)(const Allocator*, void*), const Allocator*);
   
   // Returns wether a queue contains no elements or not.
   // Complexity: O(1)
@@ -51,11 +51,11 @@ typedef struct Queue {
 // Therefore, it supports any allocator that
 // provides `al_alloc(allocator, 1, sizeof(listnode))` and the correspondent al_dealloc.
 // Complexity: O(1)
-Queue new_lqueue(Allocator);
+Queue new_lqueue(const Allocator*);
 // Creates a queue that uses a vector list of the specified size as storage.
 // The vector list will use the supplyed allocator for memory operations.
 // Complexity: O(1)
-Queue new_vqueue(Allocator, size_t);
+Queue new_vqueue(const Allocator*, size_t);
 
 // Delete a queue, deallocating the memory used by the queue
 // via the allocator specified in new_*queue.
@@ -64,7 +64,7 @@ Queue new_vqueue(Allocator, size_t);
 // Complexity:
 // On a lqueue: O(n)
 // On a vqueue: O(n) when delete is not NULL. O(1) otherwise.
-void delete_queue(Queue*, void (*delete)(Allocator, void*), Allocator);
+void delete_queue(Queue*, void (*delete)(const Allocator*, void*), const Allocator*);
 
 // Returns wether a queue contains no elements or not.
 // Complexity: O(1)

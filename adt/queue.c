@@ -15,8 +15,8 @@ static void* lqueue_pop(Queue*);
 // O(n)
 static void delete_lqueue(
   Queue* q,
-  void (*delete)(Allocator, void*),
-  Allocator allocator
+  void (*delete)(const Allocator*, void*),
+  const Allocator* allocator
 ) {
   assert(q != NULL);
   
@@ -37,8 +37,8 @@ static void delete_lqueue(
 // O(n) when delete is not NULL. O(1) otherwise.
 static void delete_vqueue(
   Queue* q,
-  void (*delete)(Allocator, void*),
-  Allocator allocator
+  void (*delete)(const Allocator*, void*),
+  const Allocator* allocator
 ) {
   assert(q != NULL);
   
@@ -59,7 +59,9 @@ static void delete_vqueue(
 
 
 // O(1)
-Queue new_lqueue(Allocator allocator) {
+Queue new_lqueue(const Allocator* allocator) {
+  assert(allocator != NULL);
+  
   return (Queue) {
     .type = Linked_List,
     .data.llist = new_llist(allocator),
@@ -74,7 +76,9 @@ Queue new_lqueue(Allocator allocator) {
 }
 
 // O(1)
-Queue new_vqueue(Allocator allocator, size_t size) {
+Queue new_vqueue(const Allocator* allocator, size_t size) {
+  assert(allocator != NULL);
+  
   return (Queue) {
     .type = Vector_List,
     .data.vlist = new_vlist(allocator, size),
@@ -91,7 +95,11 @@ Queue new_vqueue(Allocator allocator, size_t size) {
 
 // On a lqueue: O(n)
 // On a vqueue: O(n) when delete is not NULL. O(1) otherwise.
-void delete_queue(Queue* q, void (*delete)(Allocator, void*), Allocator allocator) {
+void delete_queue(
+  Queue* q,
+  void (*delete)(const Allocator*, void*),
+  const Allocator* allocator
+) {
   assert(q != NULL && q->delete != NULL);
   
   q->delete(q, delete, allocator);

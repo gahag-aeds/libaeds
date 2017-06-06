@@ -9,8 +9,8 @@
 
 // A vector list is a list that uses an array as storage.
 typedef struct VectorList {
-  Allocator allocator;  // The allocator used for memory
-                        // operations performed by the vlist functions.
+  const Allocator* allocator;  // The allocator used for memory
+                               // operations performed by the vlist functions.
   size_t capacity;  // The capacity of the data array.
   void** data;  // The array used for storing the elements.
   
@@ -29,7 +29,7 @@ void** vlist_retreat(VectorList, void**);
 // Creates a vector list of the specified size,
 // that will use the specified allocator for memory allocations.
 // Complexity: O(1)
-VectorList new_vlist(Allocator, size_t);
+VectorList new_vlist(const Allocator*, size_t);
 // Delete a vector list, deallocating the memory used by the list
 // via the allocator specified in new_vlist.
 // The delete function is called with the supplyed allocator for each contained element,
@@ -37,7 +37,7 @@ VectorList new_vlist(Allocator, size_t);
 // Complexity:
 // If delete is not NULL, O(n) where n is the number of elements in the list.
 // Otherwise, O(1).
-void delete_vlist(VectorList*, void (*delete)(Allocator, void*), Allocator);
+void delete_vlist(VectorList*, void (*delete)(const Allocator*, void*), const Allocator*);
 
 // Returns wether a vector list is initialized (via a previous call to new_vlist).
 // Complexity: O(1)

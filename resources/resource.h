@@ -11,13 +11,13 @@ typedef struct Resource {
 } Resource;
 
 typedef struct Resources {
-  Allocator allocator;
+  const Allocator* allocator;
   Stack resources;
 } Resources;
 
 bool rs_open(void* rs, ResourceDisposer, Resources*);
 
-Resources new_resources(Allocator);
+Resources new_resources(const Allocator*);
 void delete_resources(Resources*);
 
 

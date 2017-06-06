@@ -73,7 +73,7 @@ typedef struct Allocator {
 // some point, otherwise a memory leak occurs.
 // If the allocation fails, returning a null pointer,
 // the allocator.mem_error function, if not null, is called.
-void* al_alloc(Allocator, size_t num, size_t size);
+void* al_alloc(const Allocator*, size_t num, size_t size);
 
 // Allocate an array of `num` elements of the specified size in memory,
 // using the provided allocator.
@@ -85,7 +85,7 @@ void* al_alloc(Allocator, size_t num, size_t size);
 // The allocated memory is guaranteed to be 0 initialized.
 // If the allocation fails, returning a null pointer,
 // the allocator.mem_error function, if not null, is called.
-void* al_alloc_clear(Allocator, size_t num, size_t size);
+void* al_alloc_clear(const Allocator*, size_t num, size_t size);
 
 // Reallocate previosly allocated memory, with new dimensions of `num` elements of the
 // specified size in memory, using the provided allocator.
@@ -106,20 +106,16 @@ void* al_alloc_clear(Allocator, size_t num, size_t size);
 // some point, otherwise a memory leak occurs.
 // If the allocation fails, returning a null pointer, the allocator.mem_error function,
 // if not null, is called. The original memory is not deallocated if the allocation fails.
-void* al_realloc(Allocator, void*, size_t num, size_t size);
+void* al_realloc(const Allocator*, void*, size_t num, size_t size);
 
 // Deallocate memory previously allocated via a call to al_alloc/al_alloc_clear/al_realloc.
 // A call to al_dealloc supplying a NULL pointer is a no-op.
-void al_dealloc(Allocator, void*);
+void al_dealloc(const Allocator*, void*);
 
 // Create a malloc/calloc/realloc/free allocator for the supplied memory error function.
 // If a null pointer is supplyed as the memory error function,
 // memory allocation failure is ignored, returning a null pointer.
 Allocator std_allocator(void (*mem_error)(void));
-
-// Create a allocator with all functions set to NULL.
-// Usefull for invalidating an allocator.
-Allocator null_allocator(void);
 
 
 #endif /* __LIBAEDS_MEMORY_ALLOCATOR_H__ */

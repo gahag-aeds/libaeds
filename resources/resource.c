@@ -22,7 +22,8 @@ bool rs_open(void* rs, ResourceDisposer disposer, Resources* rss) {
   );
 }
 
-static void rs_close(Allocator al, void* rs) {
+static void rs_close(const Allocator* al, void* rs) {
+  assert(al != NULL);
   assert(rs != NULL);
   
   Resource* resource = rs;
@@ -33,7 +34,9 @@ static void rs_close(Allocator al, void* rs) {
 }
 
 
-Resources new_resources(Allocator al) {
+Resources new_resources(const Allocator* al) {
+  assert(al != NULL);
+  
   return (Resources) {
     .allocator = al,
     .resources = new_lstack(al)
@@ -42,7 +45,5 @@ Resources new_resources(Allocator al) {
 
 void delete_resources(Resources* rss) {
   delete_stack(&rss->resources, rs_close, rss->allocator);
-  rss->allocator = null_allocator();
+  rss->allocator = NULL;
 }
-
-

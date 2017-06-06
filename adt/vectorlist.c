@@ -19,7 +19,9 @@ void** vlist_retreat(VectorList list, void** ptr) {
 
 
 // O(1)
-VectorList new_vlist(Allocator allocator, size_t capacity) {
+VectorList new_vlist(const Allocator* allocator, size_t capacity) {
+  assert(allocator != NULL);
+  
   return (VectorList) {
     .allocator = allocator,
     
@@ -35,8 +37,8 @@ VectorList new_vlist(Allocator allocator, size_t capacity) {
 // O(n) when delete is not NULL. O(1) otherwise.
 void delete_vlist(
   VectorList* list,
-  void (*delete)(Allocator, void*),
-  Allocator allocator
+  void (*delete)(const Allocator*, void*),
+  const Allocator* allocator
 ) {
   assert(list != NULL);
   
@@ -50,7 +52,7 @@ void delete_vlist(
   al_dealloc(list->allocator, list->data);
   
   *list = (VectorList) {
-    .allocator = null_allocator(),
+    .allocator = NULL,
     
     .capacity = 0,
     .data = NULL,

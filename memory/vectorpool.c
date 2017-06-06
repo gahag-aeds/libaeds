@@ -9,7 +9,7 @@
 
 
 typedef struct VPoolData {
-  Allocator allocator;
+  const Allocator* allocator;
   
   size_t elem_size
        , size;
@@ -25,7 +25,13 @@ static void vpool_deallocate(void*, void*);
 
 
 // O(n)
-Allocator new_vpool(Allocator al, size_t size, size_t elem_size, void (*mem_error)(void)) {
+Allocator new_vpool(
+  const Allocator* al,
+  size_t size,
+  size_t elem_size,
+  void (*mem_error)(void)
+) {
+  assert(al != NULL);
   assert(elem_size > 0 && size > 0);
   
   VPoolData* data = al_alloc(al, 1, sizeof(*data));
@@ -62,14 +68,22 @@ void delete_vpool(Allocator* vpool) {
   VPoolData* data = (VPoolData*) vpool->data;
   
   assert(data != NULL);
+  assert(data->allocator != NULL);
   
-  Allocator al = data->allocator;
+  const Allocator* al = data->allocator;
   
   al_dealloc(al, data->vector);
-  delete_stack(&data->free_elements, NULL, null_allocator()); // O(1)
+  delete_stack(&data->free_elements, NULL, NULL); // O(1)
   al_dealloc(al, data);
   
-  *vpool = null_allocator();
+  *vpool = (Allocator) {
+    .data = NULL,
+    .allocate       = NULL,
+    .allocate_clear = NULL,
+    .reallocate     = NULL,
+    .deallocate     = NULL,
+    .mem_error      = NULL
+  };
 }
 
 

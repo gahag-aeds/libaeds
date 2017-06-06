@@ -14,8 +14,8 @@ typedef struct ListNode {
 
 // A linked list is a list that uses linked nodes as storage.
 typedef struct LinkedList {
-  Allocator allocator;  // The allocator used for memory
-                        // operations performed by the llist functions.
+  const Allocator* allocator;  // The allocator used for memory
+                               // operations performed by the llist functions.
   ListNode* head; // The pointer to the head element of the list.
   ListNode* tail; // The pointer to the tail element of the list.
 } LinkedList;
@@ -29,13 +29,13 @@ typedef struct LinkedList {
 // Therefore, it supports any allocator that
 // provides `al_alloc(allocator, 1, sizeof(ListNode))` and the correspondent al_dealloc.
 // Complexity: O(1)
-LinkedList new_llist(Allocator);
+LinkedList new_llist(const Allocator*);
 // Delete a linked list, deallocating the memory used by the list
 // via the allocator specified in new_llist.
 // The delete function is called with the supplyed allocator for each contained element,
 // unless NULL is supplyed as the delete function.
 // Complexity: O(n) where n is the number of elements in the list.
-void delete_llist(LinkedList*, void (*delete)(Allocator, void*), Allocator);
+void delete_llist(LinkedList*, void (*delete)(const Allocator*, void*), const Allocator*);
 
 // Returns wether a linked list contains no elements or not.
 // Complexity: O(1)

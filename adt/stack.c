@@ -15,8 +15,8 @@ static void* lstack_pop(Stack*);
 // O(n)
 static void delete_lstack(
   Stack* s,
-  void (*delete)(Allocator, void*),
-  Allocator allocator
+  void (*delete)(const Allocator*, void*),
+  const Allocator* allocator
 ) {
   assert(s != NULL);
   
@@ -37,8 +37,8 @@ static void delete_lstack(
 // O(n) when delete is not NULL. O(1) otherwise.
 static void delete_vstack(
   Stack* s,
-  void (*delete)(Allocator, void*),
-  Allocator allocator
+  void (*delete)(const Allocator*, void*),
+  const Allocator* allocator
 ) {
   assert(s != NULL);
   
@@ -58,7 +58,9 @@ static void delete_vstack(
 
 
 // O(1)
-Stack new_lstack(Allocator allocator) {
+Stack new_lstack(const Allocator* allocator) {
+  assert(allocator != NULL);
+  
   return (Stack) {
     .type = Linked_List,
     .data.llist = new_llist(allocator), // O(1)
@@ -73,7 +75,9 @@ Stack new_lstack(Allocator allocator) {
 }
 
 // O(1)
-Stack new_vstack(Allocator allocator, size_t size) {
+Stack new_vstack(const Allocator* allocator, size_t size) {
+  assert(allocator != NULL);
+  
   return (Stack) {
     .type = Vector_List,
     .data.vlist = new_vlist(allocator, size), // O(1)
@@ -90,7 +94,11 @@ Stack new_vstack(Allocator allocator, size_t size) {
 
 // On a lstack: O(n)
 // On a vstack: O(n) when delete is not NULL. O(1) otherwise.
-void delete_stack(Stack* s, void (*delete)(Allocator, void*), Allocator allocator) {
+void delete_stack(
+  Stack* s,
+  void (*delete)(const Allocator*, void*),
+  const Allocator* allocator
+) {
   assert(s != NULL && s->delete != NULL);
   
   s->delete(s, delete, allocator); // O(n)

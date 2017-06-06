@@ -6,7 +6,9 @@
 
 
 // O(1)
-LinkedList new_llist(Allocator allocator) {
+LinkedList new_llist(const Allocator* allocator) {
+  assert(allocator != NULL);
+  
   return (LinkedList) {
     .allocator = allocator,
     .head = NULL,
@@ -17,8 +19,8 @@ LinkedList new_llist(Allocator allocator) {
 // O(n)
 void delete_llist(
   LinkedList* list,
-  void (*delete)(Allocator, void*),
-  Allocator allocator
+  void (*delete)(const Allocator*, void*),
+  const Allocator* allocator
 ) {
   assert(list != NULL);
   
@@ -32,7 +34,7 @@ void delete_llist(
   }
   
   *list = (LinkedList) {
-    .allocator = null_allocator(),  // O(1)
+    .allocator = NULL,  // O(1)
     .head = NULL,
     .tail = NULL
   };
