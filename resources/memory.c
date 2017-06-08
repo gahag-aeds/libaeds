@@ -3,6 +3,21 @@
 #include <assert.h>
 
 
+void* rs_register_alloc(
+  Allocator allocator,
+  size_t count,
+  size_t size,
+  ResourceDisposer disposer,
+  Resources* rss
+) {
+  assert(rss != NULL);
+  
+  void* ptr = al_alloc(allocator, count, size);
+  
+  return rs_register(ptr, disposer, rss) ? ptr
+                                         : NULL;
+}
+
 ResourceDisposer rs_disposer_al(Allocator* al) {
   assert(al != NULL);
   

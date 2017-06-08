@@ -3,7 +3,7 @@
 #include <assert.h>
 
 
-bool rs_open_file(
+bool rs_register_file(
   FILE** file,
   const char* restrict filename,
   const char* restrict mode,
@@ -13,7 +13,7 @@ bool rs_open_file(
   assert(file != NULL);
   assert(rss != NULL);
   
-  return rs_open(
+  return rs_register(
     *file = fopen(filename, mode),
     disposer,
     rss

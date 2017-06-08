@@ -3,7 +3,7 @@
 #include <assert.h>
 
 
-bool rs_open(void* rs, ResourceDisposer disposer, Resources* rss) {
+bool rs_register(void* rs, ResourceDisposer disposer, Resources* rss) {
   assert(rss != NULL);
   
   if (rs == NULL)

@@ -6,7 +6,7 @@
 #include <libaeds/resources/resource.h>
 
 
-bool rs_open_file(
+bool rs_register_file(
   FILE** file,
   const char* restrict filename,
   const char* restrict mode,

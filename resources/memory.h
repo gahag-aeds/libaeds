@@ -4,6 +4,14 @@
 #include <libaeds/resources/resource.h>
 
 
+void* rs_register_alloc(
+  Allocator,
+  size_t count,
+  size_t size,
+  ResourceDisposer,
+  Resources*
+);
+
 ResourceDisposer rs_disposer_al(Allocator*);
 
 void al_dealloc_void(void* al, void* ptr);

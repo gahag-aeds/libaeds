@@ -15,7 +15,7 @@ typedef struct Resources {
   Stack resources;
 } Resources;
 
-bool rs_open(void* rs, ResourceDisposer, Resources*);
+bool rs_register(void* rs, ResourceDisposer, Resources*);
 
 Resources new_resources(const Allocator*);
 void delete_resources(Resources*);
