@@ -12,7 +12,7 @@ void* rs_register_alloc(
 ) {
   assert(rss != NULL);
   
-  void* ptr = al_alloc(allocator, count, size);
+  void* ptr = al_alloc(&allocator, count, size);
   
   return rs_register(ptr, disposer, rss) ? ptr
                                          : NULL;
