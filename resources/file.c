@@ -1,6 +1,7 @@
 #include "file.h"
 
 #include <assert.h>
+#include <stdio.h>
 
 
 bool rs_register_file(
@@ -28,6 +29,9 @@ int fclose_void(void* file) {
   return fclose(file);
 }
 
-void fclose_stderr(__attribute__((unused)) void* file, int err) {
-  fprintf(stderr, "fclose: %d", err);
+void fclose_stderr(
+  __attribute__((unused)) void* file,
+  __attribute__((unused)) int err
+) {
+  perror("fclose");
 }
