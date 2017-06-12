@@ -18,4 +18,9 @@
 void array_fill(size_t size, void* array[static size], void* value);
 
 
+// Indexing for void* arrays.
+// array_get(a, elem_size, index) is equivalent to `a + (elem_size * index)`.
+void* array_get(void*, size_t elem_size, size_t index);
+
+
 #endif /* __LIBAEDS_ARRAY_H__ */

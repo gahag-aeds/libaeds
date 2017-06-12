@@ -1,6 +1,12 @@
 #include "array.h"
 
 #include <assert.h>
+#include <stddef.h>
+
+
+void* array_get(void* array, size_t elem_size, size_t index) {
+  return array + (index * elem_size);
+}
 
 
 // O(n)
