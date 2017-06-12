@@ -13,20 +13,20 @@
 def_compare(signed char, schar)
 def_compare(unsigned char, uchar)
 
-def_compare(short, short);
-def_compare(unsigned short, ushort);
+def_compare(short, short)
+def_compare(unsigned short, ushort)
 
-def_compare(int, int);
-def_compare(unsigned int, uint);
+def_compare(int, int)
+def_compare(unsigned int, uint)
 
-def_compare(long, long);
-def_compare(unsigned long, ulong);
+def_compare(long, long)
+def_compare(unsigned long, ulong)
 
-def_compare(long long, longlong);
-def_compare(unsigned long long, ulonglong);
+def_compare(long long, longlong)
+def_compare(unsigned long long, ulonglong)
 
-def_compare(float, float);
+def_compare(float, float)
 
-def_compare(double, double);
+def_compare(double, double)
 
-def_compare(long double, ldouble);
+def_compare(long double, ldouble)

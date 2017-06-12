@@ -1,4 +1,4 @@
-//#include "../sorting.h"
+#include "../sorting.h"
 
 #include <assert.h>
 #include <stdbool.h>
