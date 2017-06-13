@@ -22,6 +22,7 @@ bool rs_register(void* rs, ResourceDisposer disposer, Resources* rss) {
   );
 }
 
+// Dispose a single resource, using the resource's dispose method.
 static void rs_close(const Allocator* al, void* rs) {
   assert(al != NULL);
   assert(rs != NULL);

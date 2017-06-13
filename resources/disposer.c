@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 
+struct ResourceDisposer ;
 ResourceDisposer rs_disposer(void (*dispose)(void* rs)) {
   assert(dispose != NULL);
   
@@ -81,6 +82,7 @@ int rs_dispose(void** rs, ResourceDisposer disposer) {
     if (status != 0 && disposer.error != NULL)
       disposer.error(*rs, status);
     
+    *rs = NULL;
     return status;
   }
   else {
@@ -93,6 +95,7 @@ int rs_dispose(void** rs, ResourceDisposer disposer) {
       disposer.dispose_d(disposer.data, *rs);
     }
     
+    *rs = NULL;
     return 0;
   }
 }

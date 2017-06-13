@@ -14,11 +14,9 @@ bool rs_register_file(
   assert(file != NULL);
   assert(rss != NULL);
   
-  return rs_register(
-    *file = fopen(filename, mode),
-    disposer,
-    rss
-  );
+  *file = fopen(filename, mode);
+  
+  return rs_register(*file, disposer, rss);
 }
 
 ResourceDisposer rs_disposer_file(void (*error)(void* file, int status)) {
