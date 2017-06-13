@@ -5,6 +5,9 @@
 
 
 void* array_get(void* array, size_t elem_size, size_t index) {
+  assert(array != NULL);
+  assert(elem_size != 0);
+  
   return array + (index * elem_size);
 }
 
