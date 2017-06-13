@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#include <libaeds/resources/resource.h>
+#include <libaeds/data/resources/resource.h>
 
 
 // Open a file using `fopen` and the given parameters,

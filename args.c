@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include <libaeds/array.h>
+#include <libaeds/data/array.h>
 
 
 // Worst: O(n)

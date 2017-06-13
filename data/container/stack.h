@@ -4,9 +4,10 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include <libaeds/adt/storagetype.h>
-#include <libaeds/adt/linkedlist.h>
-#include <libaeds/adt/vectorlist.h>
+#include <libaeds/data/container/storagetype.h>
+#include <libaeds/data/container/linkedlist.h>
+#include <libaeds/data/container/vectorlist.h>
+#include <libaeds/memory/allocator.h>
 
 
 typedef struct Stack {

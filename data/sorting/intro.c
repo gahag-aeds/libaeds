@@ -4,9 +4,9 @@
 #include <stdbool.h>
 #include <math.h>
 
-#include <libaeds/array.h>
+#include <libaeds/data/array.h>
+#include <libaeds/data/ordering.h>
 #include <libaeds/memory/util.h>
-#include <libaeds/ordering.h>
 
 
 // Heapsort:

@@ -4,8 +4,8 @@
 #include <stddef.h>
 #include <string.h>
 
-#include <libaeds/adt/stack.h>
-#include <libaeds/array.h>
+#include <libaeds/data/container/stack.h>
+#include <libaeds/data/array.h>
 
 
 typedef struct VPoolData {

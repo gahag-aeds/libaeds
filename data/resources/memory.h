@@ -1,7 +1,7 @@
 #ifndef __LIBAEDS_RESOURCES_MEMORY_H__
 #define __LIBAEDS_RESOURCES_MEMORY_H__
 
-#include <libaeds/resources/resource.h>
+#include <libaeds/data/resources/resource.h>
 
 
 // Allocate memory using the given allocator,

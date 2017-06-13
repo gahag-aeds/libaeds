@@ -1,8 +1,8 @@
 #ifndef __LIBAEDS_RESOURCES_RESOURCE_H__
 #define __LIBAEDS_RESOURCES_RESOURCE_H__
 
-#include <libaeds/adt/stack.h>
-#include <libaeds/resources/disposer.h>
+#include <libaeds/data/container/stack.h>
+#include <libaeds/data/resources/disposer.h>
 
 
 // A type for representing a resource.

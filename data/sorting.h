@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 
-#include <libaeds/ordering.h>
+#include <libaeds/data/ordering.h>
 
 
 // Sort an array using insertion sort. Usefull for very small arrays.
