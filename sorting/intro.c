@@ -70,9 +70,6 @@ static void _array_heap_sort(
   size_t elem_size,
   compare_fn* compare
 ) {
-  assert(array != NULL);
-  assert(compare != NULL);
-  
   for (size_t i = (length - 2) / 2 + 1; i > 0; i--)
     _heap_down(array, elem_size, length, i - 1, compare);
   

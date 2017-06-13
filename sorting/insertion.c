@@ -6,6 +6,7 @@
 #include <libaeds/array.h>
 
 
+// O(n^2)
 void array_insertion_sort(
   void* restrict array,
   size_t length,
@@ -24,7 +25,7 @@ void array_insertion_sort(
       elem_size
     );
     
-		size_t j = i; //i - 1;
+		size_t j = i;
     
 		while (j > 0 && compare(elem, array_get(array, elem_size, j - 1)) < 0) {
 			memcpy(
