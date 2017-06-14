@@ -13,7 +13,7 @@ void* array_get(void* array, size_t elem_size, size_t index) {
 
 
 // O(n)
-void array_fill(size_t size, void* array[static size], void* value) {
+void array_fill(void** restrict  array, size_t size, void* value) {
   assert(array != NULL);
   
   for (size_t i = 0; i < size; i++) // O(n)
