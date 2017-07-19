@@ -94,14 +94,14 @@ static size_t _array_partition( // Hoare's partition scheme:
 ) {
   void* const elem = array;
   
-  size_t left = 0, right = length;
+  size_t left = -1, right = length;
   
   while (true) {
     do right--;
     while (compare(array_get(array, elem_size, right), elem) > 0);
     
-    while (compare(array_get(array, elem_size, left), elem) < 0)
-     left++;
+    do left++;
+    while (compare(array_get(array, elem_size, left), elem) < 0);
     
     if (left < right) 
       mem_swap(
