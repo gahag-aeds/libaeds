@@ -6,7 +6,7 @@
 
 // A disposing method for a resource.
 // The intrinsics of this struct are not important for the user.
-// It is declared in the header file to provide an complete object type.
+// It is declared in the header file to provide a complete object type.
 typedef struct ResourceDisposer {
   void* data;
   
