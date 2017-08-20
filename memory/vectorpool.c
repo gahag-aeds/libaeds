@@ -47,7 +47,8 @@ Allocator new_vpool(
   };
   
   foreach_ix (i, 0, size) // O(n)
-    if (!stack_push(&data->free_elements, data->vector + (i * data->elem_size))) // O(1)
+    if (!stack_push(&data->free_elements, (char*) data->vector + (i * data->elem_size)))
+      // O(1)
       assert(false);
   
   return (Allocator) {
@@ -125,7 +126,7 @@ static void vpool_deallocate(void* ptr, void* _data) {
   
   assert(_data != NULL);
   assert(ptr >= data->vector &&
-         ptr <= data->vector + ((data->size - 1) * data->elem_size));
+         ptr <= (void*) ((char*) data->vector + ((data->size - 1) * data->elem_size)));
   
   if (!stack_push(&data->free_elements, ptr)) // O(1)
     assert(false);

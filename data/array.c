@@ -4,9 +4,11 @@
 #include <stddef.h>
 
 
-void* array_get(void* array, size_t elem_size, size_t index) {
-  assert(array != NULL);
+void* array_get(void* _array, size_t elem_size, size_t index) {
+  assert(_array != NULL);
   assert(elem_size != 0);
+  
+  char* array = _array;
   
   return array + (index * elem_size);
 }

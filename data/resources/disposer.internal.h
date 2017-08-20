@@ -34,7 +34,7 @@ struct ResourceDisposer {
       int (*dispose)(void* data, void* rs); // NOT null.
       void (*error)(void* rs, int status);  // May be NULL.
     } sd;
-  };
+  } data;
 };
 
 
