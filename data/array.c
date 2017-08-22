@@ -23,6 +23,33 @@ void array_fill(void** restrict  array, size_t size, void* value) {
 }
 
 
+void array_fmap(void* array, size_t elem_size, size_t size, void (*fn)(void*)) {
+  assert(array != NULL);
+  assert(elem_size != 0);
+  assert(fn != NULL);
+  
+  for (size_t i = 0; i < size; i++)
+    fn(array_get(array, elem_size, i));
+}
+
+void array_fmap_range(void* array, size_t elem_size, IxRange range, void (*fn)(void*)) {
+  assert(array != NULL);
+  assert(elem_size != 0);
+  assert(fn != NULL);
+  
+  if (range.begin < range.end)
+    array_fmap(
+      array_get(array, elem_size, range.begin),
+      elem_size,
+      range.begin - range.end + 1,
+      fn
+    );
+  else
+    for (size_t i = range.begin; i >= range.end; i--)
+      fn(array_get(array, elem_size, i));
+}
+
+
 // O(n)
 void count_occurrences(
   void* restrict array,

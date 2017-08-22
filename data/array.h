@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 
+#include <libaeds/data/ix/range.h>
+
 
 // Short macro for writing for loops iterating an index.
 // `var` must be a valid unused variable name in the context of the calling site.
@@ -21,6 +23,11 @@ void* array_get(void*, size_t elem_size, size_t index);
 // representation is assigned, opposed to using memset.
 // Complexity: O(n) where n is the size of the supplied array.
 void array_fill(void** restrict array, size_t size, void* value);
+
+
+void array_fmap(void*, size_t elem_size, size_t size, void (*fn)(void*));
+
+void array_fmap_range(void*, size_t elem_size, IxRange range, void (*fn)(void*));
 
 
 // Count occurrences of an element in an array.
