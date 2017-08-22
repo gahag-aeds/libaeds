@@ -41,7 +41,7 @@ void array_fmap_range(void* array, size_t elem_size, IxRange range, void (*fn)(v
     array_fmap(
       array_get(array, elem_size, range.begin),
       elem_size,
-      range.begin - range.end + 1,
+      range.end - range.begin + 1,
       fn
     );
   else
