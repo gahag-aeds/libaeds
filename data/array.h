@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_ARRAY_H__
-#define __LIBAEDS_ARRAY_H__
+#ifndef __LIBAEDS_DATA_ARRAY_H__
+#define __LIBAEDS_DATA_ARRAY_H__
 
 #include <stddef.h>
 
@@ -46,4 +46,4 @@ void count_occurrences(
 );
 
 
-#endif /* __LIBAEDS_ARRAY_H__ */
+#endif /* __LIBAEDS_DATA_ARRAY_H__ */

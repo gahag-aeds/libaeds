@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_ORDERING_H__
-#define __LIBAEDS_ORDERING_H__
+#ifndef __LIBAEDS_DATA_ORDERING_H__
+#define __LIBAEDS_DATA_ORDERING_H__
 
 
 // A function type for comparing two elements of a given type.
@@ -34,4 +34,4 @@ int compare_double(const void*, const void*);
 int compare_ldouble(const void*, const void*);
 
 
-#endif /* __LIBAEDS_ORDERING_H__ */
+#endif /* __LIBAEDS_DATA_ORDERING_H__ */

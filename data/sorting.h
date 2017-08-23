@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_SORTING_H__
-#define __LIBAEDS_SORTING_H__
+#ifndef __LIBAEDS_DATA_SORTING_H__
+#define __LIBAEDS_DATA_SORTING_H__
 
 #include <stddef.h>
 
@@ -21,4 +21,4 @@ void array_insertion_sort(void* array, size_t length, size_t elem_size, compare_
 void array_intro_sort(void* array, size_t length, size_t elem_size, compare_fn*);
 
 
-#endif /* __LIBAEDS_SORTING_H__ */
+#endif /* __LIBAEDS_DATA_SORTING_H__ */
