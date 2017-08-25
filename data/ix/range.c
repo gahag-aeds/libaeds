@@ -13,6 +13,13 @@ IxRange ixrange(size_t begin, size_t end) {
 }
 
 
+size_t ixrange_size(IxRange r) {
+  assert(r.begin <= r.end);
+  
+  return r.end - r.begin + 1;
+}
+
+
 IxRange ixrange_split(IxRange* r) {
   assert(r != NULL);
   assert(r->begin <= r->end);

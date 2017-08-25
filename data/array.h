@@ -6,6 +6,7 @@
 #include <libaeds/data/ix/range.h>
 
 
+// Struct to unify the data of a generic array.
 typedef struct Array {
   void* data;
   size_t size;
@@ -14,7 +15,7 @@ typedef struct Array {
 
 
 // Indexing for void* arrays.
-// array_get(a, elem_size, index) is equivalent to `a + (elem_size * index)`.
+// `array_get(a, elem_size, index)` is equivalent to `a + (elem_size * index)`.
 void* array_get(Array, size_t index);
 
 
@@ -25,8 +26,14 @@ void* array_get(Array, size_t index);
 void array_fill(void** restrict array, size_t size, void* value);
 
 
+// Maps a function over all the elements in the array, in order.
+// Complexity: Let `fn` be O(p), then `array_fmap(array, fn)` is O(array.size * p).
 void array_fmap(Array, void (*fn)(void*));
 
+
+// Maps a function over all of the array in the given range.
+// Complexity:
+// Let `fn` be O(p), then `array_fmap(array, range, fn)` is O(ixrange_size(range) * p).
 void array_fmap_range(Array, IxRange, void (*fn)(void*));
 
 
