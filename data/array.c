@@ -39,25 +39,17 @@ void array_fmap_range(Array array, IxRange range, void (*fn)(void*)) {
   assert(array.data != NULL);
   assert(array.elem_size != 0);
   assert(fn != NULL);
+  assert(range.begin <= range.end);
+  assert(range.end < array.size);
   
-  if (range.begin < range.end) {
-    assert(range.end < array.size);
-    
-    array_fmap(
-      (Array) {
-        .data = array_get(array, range.begin),
-        .size = range.end - range.begin + 1,
-        .elem_size = array.elem_size
-      },
-      fn
-    );
-  }
-  else {
-    assert(range.begin < array.size);
-    
-    for (size_t i = range.begin; i >= range.end; i--)
-      fn(array_get(array, i));
-  }
+  array_fmap(
+    (Array) {
+      .data = array_get(array, range.begin),
+      .size = range.end - range.begin + 1,
+      .elem_size = array.elem_size
+    },
+    fn
+  );
 }
 
 
