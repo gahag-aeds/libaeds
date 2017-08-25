@@ -7,40 +7,35 @@
 
 
 // O(n^2)
-void array_insertion_sort(
-  void* restrict array,
-  size_t length,
-  size_t elem_size,
-  compare_fn* compare
-) {
-  assert(array != NULL);
+void array_insertion_sort(Array array, compare_fn* compare) {
+  assert(array.data != NULL);
   assert(compare != NULL);
   
-  char elem[elem_size]; // VLA for temporary element.
+  char elem[array.elem_size]; // VLA for temporary element.
   
-	for (size_t i = 1; i < length; i++) {
+	for (size_t i = 1; i < array.size; i++) {
 		memcpy(
       elem,
-      array_get(array, elem_size, i),
-      elem_size
+      array_get(array, i),
+      array.elem_size
     );
     
 		size_t j = i;
     
-		while (j > 0 && compare(elem, array_get(array, elem_size, j - 1)) < 0) {
+		while (j > 0 && compare(elem, array_get(array, j - 1)) < 0) {
 			memcpy(
-        array_get(array, elem_size, j),
-        array_get(array, elem_size, j - 1),
-        elem_size
+        array_get(array, j),
+        array_get(array, j - 1),
+        array.elem_size
       );
       
 			j--;
 		}
     
 		memcpy(
-      array_get(array, elem_size, j),
+      array_get(array, j),
       elem,
-      elem_size
+      array.elem_size
     );
 	}
 }

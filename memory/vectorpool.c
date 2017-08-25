@@ -5,7 +5,7 @@
 #include <string.h>
 
 #include <libaeds/data/container/stack.h>
-#include <libaeds/data/array.h>
+#include <libaeds/data/ix/ix.h>
 
 
 typedef struct VPoolData {

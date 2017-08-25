@@ -3,13 +3,14 @@
 
 #include <stddef.h>
 
+#include <libaeds/data/array.h>
 #include <libaeds/data/ordering.h>
 
 
 // Sort an array using insertion sort. Usefull for very small arrays.
 // Stable.
 // Complexity: O(n^2)
-void array_insertion_sort(void* array, size_t length, size_t elem_size, compare_fn*);
+void array_insertion_sort(Array, compare_fn*);
 
 // Sort an array using intro sort. Usefull for most types of arrays.
 // Intro sort is a modified quicksort:
@@ -18,7 +19,7 @@ void array_insertion_sort(void* array, size_t length, size_t elem_size, compare_
 // This amortizes the worst case complexity to heap sort's worst case: O(n log n).
 // Unstable.
 // Complexity: O(n log n)
-void array_intro_sort(void* array, size_t length, size_t elem_size, compare_fn*);
+void array_intro_sort(Array, compare_fn*);
 
 
 #endif /* __LIBAEDS_DATA_SORTING_H__ */
