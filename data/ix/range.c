@@ -17,6 +17,9 @@ IxRange ixrange_split(IxRange* r) {
   assert(r != NULL);
   assert(r->begin <= r->end);
   
+  if (r->begin == r->end)
+    return *r;
+  
   size_t half_length = (r->end - r->begin + 1) / 2;
   
   IxRange left = {
