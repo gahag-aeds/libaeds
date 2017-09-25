@@ -19,7 +19,7 @@ void* rs_register_alloc(
 );
 
 // Create a disposer for memory allocated with the given allocator.
-ResourceDisposer rs_disposer_al(Allocator*);
+ResourceDisposer rs_disposer_al(const Allocator*);
 
 // An alias of `al_dealloc`, but taking the allocator as a void*.
 void al_dealloc_void(void* al, void* ptr);

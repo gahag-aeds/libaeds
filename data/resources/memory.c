@@ -18,14 +18,14 @@ void* rs_register_alloc(
                                          : NULL;
 }
 
-ResourceDisposer rs_disposer_al(Allocator* al) {
+ResourceDisposer rs_disposer_al(const Allocator* al) {
   assert(al != NULL);
   
-  return rs_disposer_d(al, al_dealloc_void);
+  return rs_disposer_d((void*) al, al_dealloc_void);
 }
 
 void al_dealloc_void(void* al, void* ptr) {
   assert(al != NULL);
   
-  al_dealloc((Allocator*) al, ptr);
+  al_dealloc((const Allocator*) al, ptr);
 }
