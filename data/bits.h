@@ -12,12 +12,27 @@ uint8_t popcount_16(uint16_t);
 uint8_t popcount_32(uint32_t);
 uint8_t popcount_64(uint64_t);
 
+// msb: index of the most significant bit in the value.
+// Complexity: O(1).
+uint8_t msb_8(uint8_t);
+uint8_t msb_16(uint16_t);
+uint8_t msb_32(uint32_t);
+uint8_t msb_64(uint64_t);
+
+// lsb: index of the least significant bit in the value.
+// Complexity: O(1).
+uint8_t lsb_8(uint8_t);
+uint8_t lsb_16(uint16_t);
+uint8_t lsb_32(uint32_t);
+uint8_t lsb_64(uint64_t);
+
 // testbit: returns wheter a given bit is set in the value.
 // Complexity: O(1).
 bool testbit_8(uint8_t, uint8_t);
 bool testbit_16(uint16_t, uint8_t);
 bool testbit_32(uint32_t, uint8_t);
 bool testbit_64(uint64_t, uint8_t);
+
 
 // setbit: sets the given bit in the value.
 // Complexity: O(1).
