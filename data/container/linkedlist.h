@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_ADT_LINKED_LIST_H__
-#define __LIBAEDS_ADT_LINKED_LIST_H__
+#ifndef __LIBAEDS_DATA_CONTAINER_LINKEDLIST_H__
+#define __LIBAEDS_DATA_CONTAINER_LINKEDLIST_H__
 
 #include <stdbool.h>
 
@@ -56,4 +56,4 @@ void llist_push_tail(LinkedList*, const void*);
 void* llist_pop_head(LinkedList*); // Pop from the head.
 
 
-#endif /* __LIBAEDS_ADT_LINKED_LIST_H__ */
+#endif /* __LIBAEDS_DATA_CONTAINER_LINKEDLIST_H__ */

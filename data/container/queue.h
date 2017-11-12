@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_ADT_QUEUE_H__
-#define __LIBAEDS_ADT_QUEUE_H__
+#ifndef __LIBAEDS_DATA_CONTAINER_QUEUE_H__
+#define __LIBAEDS_DATA_CONTAINER_QUEUE_H__
 
 #include <stdbool.h>
 
@@ -73,4 +73,4 @@ bool enqueue(Queue, const void*);
 void* dequeue(Queue);
 
 
-#endif /* __LIBAEDS_ADT_QUEUE_H__ */
+#endif /* __LIBAEDS_DATA_CONTAINER_QUEUE_H__ */

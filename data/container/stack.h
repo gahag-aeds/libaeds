@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_ADT_STACK_H__
-#define __LIBAEDS_ADT_STACK_H__
+#ifndef __LIBAEDS_DATA_CONTAINER_STACK_H__
+#define __LIBAEDS_DATA_CONTAINER_STACK_H__
 
 #include <stdbool.h>
 
@@ -72,4 +72,4 @@ bool stack_push(Stack, const void*);
 void* stack_pop(Stack);
 
 
-#endif /* __LIBAEDS_ADT_STACK_H__ */
+#endif /* __LIBAEDS_DATA_CONTAINER_STACK_H__ */

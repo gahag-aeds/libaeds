@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_MEMORY_VECTOR_POOL_H__
-#define __LIBAEDS_MEMORY_VECTOR_POOL_H__
+#ifndef __LIBAEDS_MEMORY_VECTORPOOL_H__
+#define __LIBAEDS_MEMORY_VECTORPOOL_H__
 
 #include <libaeds/memory/allocator.h>
 
@@ -53,4 +53,4 @@ Allocator new_vpool(
 void delete_vpool(Allocator*);
 
 
-#endif /* __LIBAEDS_MEMORY_VECTOR_POOL_H__ */
+#endif /* __LIBAEDS_MEMORY_VECTORPOOL_H__ */

@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_RESOURCES_MEMORY_H__
-#define __LIBAEDS_RESOURCES_MEMORY_H__
+#ifndef __LIBAEDS_DATA_RESOURCES_MEMORY_H__
+#define __LIBAEDS_DATA_RESOURCES_MEMORY_H__
 
 #include <libaeds/data/resources/resource.h>
 
@@ -25,4 +25,4 @@ ResourceDisposer rs_disposer_al(const Allocator*);
 void al_dealloc_void(void* al, void* ptr);
 
 
-#endif /* __LIBAEDS_RESOURCES_MEMORY_H__ */
+#endif /* __LIBAEDS_DATA_RESOURCES_MEMORY_H__ */

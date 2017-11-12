@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_ADT_VECTOR_LIST_H__
-#define __LIBAEDS_ADT_VECTOR_LIST_H__
+#ifndef __LIBAEDS_DATA_CONTAINER_VECTORLIST_H__
+#define __LIBAEDS_DATA_CONTAINER_VECTORLIST_H__
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -64,4 +64,4 @@ void* vlist_pop_tail(VectorList*);
 
 
 
-#endif /* __LIBAEDS_ADT_VECTOR_LIST_H__ */
+#endif /* __LIBAEDS_DATA_CONTAINER_VECTORLIST_H__ */

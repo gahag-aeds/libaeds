@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_RESOURCES_DISPOSER_H__
-#define __LIBAEDS_RESOURCES_DISPOSER_H__
+#ifndef __LIBAEDS_DATA_RESOURCES_DISPOSER_H__
+#define __LIBAEDS_DATA_RESOURCES_DISPOSER_H__
 
 #include "disposer.internal.h"
 
@@ -46,4 +46,4 @@ ResourceDisposer rs_disposer_sd(
 int rs_dispose(void** rs, ResourceDisposer);
 
 
-#endif /* __LIBAEDS_RESOURCES_DISPOSER_H__ */
+#endif /* __LIBAEDS_DATA_RESOURCES_DISPOSER_H__ */

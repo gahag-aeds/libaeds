@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_RESOURCES_FILE_H__
-#define __LIBAEDS_RESOURCES_FILE_H__
+#ifndef __LIBAEDS_DATA_RESOURCES_FILE_H__
+#define __LIBAEDS_DATA_RESOURCES_FILE_H__
 
 #include <stdio.h>
 
@@ -32,4 +32,4 @@ int fclose_void(void*);
 void fclose_stderr(void* file, int err);
 
 
-#endif /* __LIBAEDS_RESOURCES_FILE_H__ */
+#endif /* __LIBAEDS_DATA_RESOURCES_FILE_H__ */

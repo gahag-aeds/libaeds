@@ -1,5 +1,5 @@
-#ifndef __LIBAEDS_RESOURCES_RESOURCE_H__
-#define __LIBAEDS_RESOURCES_RESOURCE_H__
+#ifndef __LIBAEDS_DATA_RESOURCES_RESOURCE_H__
+#define __LIBAEDS_DATA_RESOURCES_RESOURCE_H__
 
 #include <libaeds/data/container/stack.h>
 #include <libaeds/data/resources/disposer.h>
@@ -36,4 +36,4 @@ Resources new_resources(const Allocator*);
 void delete_resources(Resources*);
 
 
-#endif /* __LIBAEDS_RESOURCES_RESOURCE_H__ */
+#endif /* __LIBAEDS_DATA_RESOURCES_RESOURCE_H__ */
