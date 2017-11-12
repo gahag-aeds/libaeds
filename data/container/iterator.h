@@ -21,12 +21,12 @@ typedef struct Iterator {
 
 // Returns the element identified by the iterator.
 // If the iterator was advanced past the end of the container, returns NULL.
-void* it_get(Iterator);
+void* it_get(Iterator*);
 
 // Move the iterator to the next position in the container.
 // If the iterator was at the last position of the container,
 // this function invalidates it, so further calls to `get` will return NULL.
-void it_next(Iterator);
+void it_next(Iterator*);
 
 
 #endif /* __LIBAEDS_DATA_CONTAINER_ITERATOR_H__ */
