@@ -25,6 +25,13 @@ static void* lstack_pop(Stack s) {
 }
 
 
+// O(1)
+static Iterator lstack_begin(Stack s) {
+  assert(s.data != NULL);
+  return llist_begin(s.data);
+}
+
+
 // O(n)
 static void delete_lstack(
   Stack* s,
@@ -45,6 +52,7 @@ Stack new_lstack(const Allocator* allocator, const Allocator* node_allocator) {
     .delete = delete_lstack,
     .empty  = lstack_empty,
     .push   = lstack_push,
-    .pop    = lstack_pop
+    .pop    = lstack_pop,
+    .begin  = lstack_begin
   };
 }

@@ -173,3 +173,35 @@ void* vlist_pop_tail(VectorList* list) {
   
   return obj;
 }
+
+
+
+static void* vlist_it_get(Iterator* it) {
+  assert(it != NULL);
+  
+  void** data = it->data;
+  
+  return data == NULL ? NULL
+                      : *data;
+}
+
+static void vlist_it_advance(Iterator* it) {
+  assert(it != NULL);
+  assert(it->container != NULL);
+  
+  const VectorList* list = it->container;
+  
+  it->data = it->data == list->tail ? NULL
+                                    : vlist_advance(list, it->data);
+}
+
+Iterator vlist_begin(const VectorList* list) {
+  assert(list != NULL);
+  return (Iterator) {
+    .container = list,
+    .data = list->head,
+    
+    .get = vlist_it_get,
+    .advance = vlist_it_advance
+  };
+}

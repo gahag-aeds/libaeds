@@ -24,6 +24,13 @@ static void* vqueue_pop(Queue q) {
 }
 
 
+// O(1)
+static Iterator vqueue_begin(Queue q) {
+  assert(q.data != NULL);
+  return vlist_begin(q.data);
+}
+
+
 // O(n) when delete is not NULL. O(1) otherwise.
 static void delete_vqueue(
   Queue* q,
@@ -45,6 +52,7 @@ Queue new_vqueue(const Allocator* allocator, size_t size) {
     .delete  = delete_vqueue,
     .empty   = vqueue_empty,
     .enqueue = vqueue_push,
-    .dequeue = vqueue_pop
+    .dequeue = vqueue_pop,
+    .begin   = vqueue_begin
   };
 }

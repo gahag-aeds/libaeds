@@ -24,6 +24,13 @@ static void* vstack_pop(Stack s) {
 }
 
 
+// O(1)
+static Iterator vstack_begin(Stack s) {
+  assert(s.data != NULL);
+  return vlist_begin(s.data);
+}
+
+
 // O(n) when delete is not NULL. O(1) otherwise.
 static void delete_vstack(
   Stack* s,
@@ -44,6 +51,7 @@ Stack new_vstack(const Allocator* allocator, size_t size) {
     .delete = delete_vstack,
     .empty  = vstack_empty,
     .push   = vstack_push,
-    .pop    = vstack_pop
+    .pop    = vstack_pop,
+    .begin  = vstack_begin
   };
 }

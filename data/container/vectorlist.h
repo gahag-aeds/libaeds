@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include <libaeds/data/container/iterator.h>
 #include <libaeds/memory/allocator.h>
 
 
@@ -62,6 +63,9 @@ void* vlist_pop_head(VectorList*);
 // Complexity: O(1)
 void* vlist_pop_tail(VectorList*);
 
+// Returns an iterator to the first element of the vector.
+// Complexity: O(1)
+Iterator vlist_begin(const VectorList*);
 
 
 #endif /* __LIBAEDS_DATA_CONTAINER_VECTORLIST_H__ */

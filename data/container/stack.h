@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+#include <libaeds/data/container/iterator.h>
 #include <libaeds/memory/allocator.h>
 
 
@@ -32,6 +33,10 @@ typedef struct Stack {
   // This operation fails if the stack is empty.
   // Complexity: O(1)
   void* (*pop)(struct Stack);
+  
+  // Returns an iterator to the top of the stack: top -> bottom.
+  // Complexity: O(1)
+  Iterator (*begin)(struct Stack);
 } Stack;
 
 
@@ -70,6 +75,10 @@ bool stack_push(Stack, const void*);
 // This operation fails if the stack is empty.
 // Complexity: O(1)
 void* stack_pop(Stack);
+
+// Returns an iterator to the top of the stack: top -> bottom.
+// Complexity: O(1)
+Iterator stack_begin(Stack);
 
 
 #endif /* __LIBAEDS_DATA_CONTAINER_STACK_H__ */

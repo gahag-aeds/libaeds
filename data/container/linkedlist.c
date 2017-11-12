@@ -156,3 +156,33 @@ void* llist_pop_head(LinkedList* list) {  // Pop from the head.
   
   return obj;
 }
+
+
+
+static void* llist_it_get(Iterator* it) {
+  assert(it != NULL);
+  
+  LinkedNode* node = it->data;
+  return node == NULL ? NULL
+                      : node->data;
+}
+
+static void llist_it_advance(Iterator* it) {
+  assert(it != NULL);
+  
+  LinkedNode* node = it->data;
+  
+  if (node != NULL)
+    it->data = node->next;
+}
+
+Iterator llist_begin(const LinkedList* list) {
+  assert(list != NULL);
+  return (Iterator) {
+    .container = list,
+    .data      = list->head,
+    
+    .get = llist_it_get,
+    .advance = llist_it_advance
+  };
+}

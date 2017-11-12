@@ -25,6 +25,13 @@ static void* lqueue_pop(Queue q) {
 }
 
 
+// O(1)
+static Iterator lqueue_begin(Queue q) {
+  assert(q.data != NULL);
+  return llist_begin(q.data);
+}
+
+
 // O(n)
 static void delete_lqueue(
   Queue* q,
@@ -45,6 +52,7 @@ Queue new_lqueue(const Allocator* allocator, const Allocator* node_allocator) {
     .delete  = delete_lqueue,
     .empty   = lqueue_empty,
     .enqueue = lqueue_push,
-    .dequeue = lqueue_pop
+    .dequeue = lqueue_pop,
+    .begin   = lqueue_begin
   };
 }

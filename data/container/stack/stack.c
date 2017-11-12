@@ -48,3 +48,10 @@ void* stack_pop(Stack s) {
   assert(s.pop != NULL);
   return s.pop(s); // O(1)
 }
+
+
+// O(1)
+Iterator stack_begin(Stack s) {
+  assert(s.begin != NULL);
+  return s.begin(s);
+}

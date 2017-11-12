@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+#include <libaeds/data/container/iterator.h>
 #include <libaeds/memory/allocator.h>
 
 
@@ -32,6 +33,10 @@ typedef struct Queue {
   // This operation fails if the queue is empty.
   // Complexity: O(1)
   void* (*dequeue)(struct Queue);
+  
+  // Returns an iterator to the begin of the queue: first -> last.
+  // Complexity: O(1)
+  Iterator (*begin)(struct Queue);
 } Queue;
 
 
@@ -71,6 +76,10 @@ bool enqueue(Queue, const void*);
 // This operation fails if the queue is empty.
 // Complexity: O(1)
 void* dequeue(Queue);
+
+// Returns an iterator to the begin of the queue: first -> last.
+// Complexity: O(1)
+Iterator queue_begin(Queue);
 
 
 #endif /* __LIBAEDS_DATA_CONTAINER_QUEUE_H__ */

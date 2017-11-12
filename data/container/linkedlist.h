@@ -2,7 +2,9 @@
 #define __LIBAEDS_DATA_CONTAINER_LINKEDLIST_H__
 
 #include <stdbool.h>
+#include <stddef.h>
 
+#include <libaeds/data/container/iterator.h>
 #include <libaeds/memory/allocator.h>
 
 
@@ -54,6 +56,10 @@ void llist_push_tail(LinkedList*, const void*);
 // This operation fails if the linked list is empty.
 // Complexity: O(1)
 void* llist_pop_head(LinkedList*); // Pop from the head.
+
+// Returns an iterator to the first element of the list.
+// Complexity: O(1)
+Iterator llist_begin(const LinkedList*);
 
 
 #endif /* __LIBAEDS_DATA_CONTAINER_LINKEDLIST_H__ */

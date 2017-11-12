@@ -49,3 +49,10 @@ void* dequeue(Queue q) {
   assert(q.dequeue != NULL);
   return q.dequeue(q);
 }
+
+
+// O(1)
+Iterator queue_begin(Queue q) {
+  assert(q.begin != NULL);
+  return q.begin(q);
+}
