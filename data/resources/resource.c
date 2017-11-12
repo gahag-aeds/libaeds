@@ -17,7 +17,7 @@ bool rs_register(void* rs, ResourceDisposer disposer, Resources* rss) {
   }
   
   return stack_push(
-    &rss->resources,
+    rss->resources,
     resource
   );
 }
@@ -40,7 +40,7 @@ Resources new_resources(const Allocator* al) {
   
   return (Resources) {
     .allocator = al,
-    .resources = new_lstack(al)
+    .resources = new_lstack(al, al)
   };
 }
 

@@ -6,40 +6,42 @@
 #include <libaeds/memory/allocator.h>
 
 
-// A ListNode is a node of a linked list.
-typedef struct ListNode {
-  struct ListNode* next;  // Pointer to the next node.
-  void* data; // Pointer to the data.
-} ListNode;
+// A LinkedNode is a node of a linked list.
+typedef struct LinkedNode LinkedNode;
 
 // A linked list is a list that uses linked nodes as storage.
-typedef struct LinkedList {
-  const Allocator* allocator;  // The allocator used for memory
-                               // operations performed by the llist functions.
-  ListNode* head; // The pointer to the head element of the list.
-  ListNode* tail; // The pointer to the tail element of the list.
-} LinkedList;
+typedef struct LinkedList LinkedList;
 
 
-// The data referenced by a list node is the data pointer casted to a data type pointer.
-#define node_data(node, type) ((type*) (node)->data)
+extern const size_t sizeof_lnode;
 
-// Creates a linked list that will use the specified allocator for memory allocations.
-// The list only uses the allocator for allocating a ListNodes one at a time.
-// Therefore, it supports any allocator that
-// provides `al_alloc(allocator, 1, sizeof(ListNode))` and the correspondent al_dealloc.
+// Returns the data pointer contained in the node.
 // Complexity: O(1)
-LinkedList new_llist(const Allocator*);
-// Delete a linked list, deallocating the memory used by the list
-// via the allocator specified in new_llist.
+void* lnode_data(const LinkedNode*);
+
+// The data referenced by a LinkedNode is the contained pointer casted to the original type.
+#define lnode_tdata(node, type) ((type*) lnode_data(node))
+
+
+// Creates a linked list that will use the specified allocator once to allocate the
+// LinkedList struct, and the node_allocator for each node allocation.
+// The list only allocates nodes one at a time. Therefore, it supports any node_allocator
+// that provides `al_alloc(allocator, 1, sizeof_lnode)` and the correspondent al_dealloc.
+// Complexity: O(1)
+LinkedList* new_llist(const Allocator* allocator, const Allocator* node_allocator);
+// Delete a linked list, deallocating the memory used by the list and nodes via the
+// allocators specified in new_llist.
 // The delete function is called with the supplyed allocator for each contained element,
 // unless NULL is supplyed as the delete function.
 // Complexity: O(n) where n is the number of elements in the list.
-void delete_llist(LinkedList*, void (*delete)(const Allocator*, void*), const Allocator*);
+void delete_llist(LinkedList**, void (*delete)(const Allocator*, void*), const Allocator*);
 
+// Returns the number of elements in the list.
+// Complexity: O(1)
+size_t llist_size(const LinkedList*);
 // Returns wether a linked list contains no elements or not.
 // Complexity: O(1)
-bool llist_empty(LinkedList);
+bool llist_empty(const LinkedList*);
 
 // Pushes an element to the head of a linked list.
 // Complexity: O(1)

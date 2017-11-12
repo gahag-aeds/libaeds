@@ -5,45 +5,91 @@
 #include <stddef.h>
 
 
-// O(1)
-LinkedList new_llist(const Allocator* allocator) {
-  assert(allocator != NULL);
+// A LinkedNode is a node of a LinkedList.
+struct LinkedNode {
+  LinkedNode* next;  // Pointer to the next node.
+  void* data; // Pointer to the data.
+};
+
+// A LinkedList is a list that uses linked nodes as storage.
+struct LinkedList {
+  const Allocator* allocator; // The allocator used to allocate this struct.
+  const Allocator* node_allocator; // The allocator used to allocate nodes.
   
-  return (LinkedList) {
+  size_t size;  // The number of elements in the list.
+  
+  LinkedNode* head; // The pointer to the head element of the list.
+  LinkedNode* tail; // The pointer to the tail element of the list.
+};
+
+
+const size_t sizeof_lnode = sizeof(LinkedNode);
+
+
+// O(1)
+void* lnode_data(const LinkedNode* node) {
+  assert(node != NULL);
+  return node->data;
+}
+
+
+// O(1)
+LinkedList* new_llist(const Allocator* allocator, const Allocator* node_allocator) {
+  assert(allocator != NULL);
+  assert(node_allocator != NULL);
+  
+  LinkedList* list = al_alloc(allocator, 1, sizeof(LinkedList));
+  *list = (LinkedList) {
     .allocator = allocator,
+    .node_allocator = node_allocator,
+    
+    .size = 0,
+    
     .head = NULL,
     .tail = NULL
   };
+  
+  return list;
 }
 
 // O(n)
 void delete_llist(
-  LinkedList* list,
+  LinkedList** _list,
   void (*delete)(const Allocator*, void*),
   const Allocator* allocator
 ) {
-  assert(list != NULL);
+  assert(_list != NULL);
   
-  for (ListNode* next, *node = list->head; node != NULL; node = next) { // O(n)
+  if (_list == NULL)
+    return;
+  
+  LinkedList* list = *_list;
+  
+  for (LinkedNode *next, *node = list->head; node != NULL; node = next) { // O(n)
     next = node->next;
     
     if (delete != NULL)
       delete(allocator, node->data);  // O(1)
     
-    al_dealloc(list->allocator, node);  // O(1)
+    al_dealloc(list->node_allocator, node);  // O(1)
   }
   
-  *list = (LinkedList) {
-    .allocator = NULL,  // O(1)
-    .head = NULL,
-    .tail = NULL
-  };
+  al_dealloc(list->allocator, list);
+  
+  *_list = NULL;
 }
 
 
 // O(1)
-bool llist_empty(LinkedList list) {
-  return list.head == NULL;
+size_t llist_size(const LinkedList* list) {
+  assert(list != NULL);
+  return list->size;
+}
+
+// O(1)
+bool llist_empty(const LinkedList* list) {
+  assert(list != NULL);
+  return list->size == 0;
 }
 
 
@@ -54,16 +100,18 @@ void llist_push_head(LinkedList* list, const void* obj) {  // Insert at the head
   if (obj == NULL)
     return;
 
-  ListNode* node = al_alloc(list->allocator, 1, sizeof(*node)); // O(1)
-  *node = (ListNode) {
+  LinkedNode* node = al_alloc(list->node_allocator, 1, sizeof(LinkedNode)); // O(1)
+  *node = (LinkedNode) {
     .next = list->head,
     .data = (void*) obj
   };
   
-  if (llist_empty(*list)) // O(1)
+  if (llist_empty(list)) // O(1)
     list->tail = node;
   
   list->head = node;
+  
+  list->size++;
 }
 
 // O(1)
@@ -73,16 +121,18 @@ void llist_push_tail(LinkedList* list, const void* obj) {  // Insert at the tail
   if (obj == NULL)
     return;
   
-  ListNode* node = al_alloc(list->allocator, 1, sizeof(*node)); // O(1)
-  *node = (ListNode) {
+  LinkedNode* node = al_alloc(list->node_allocator, 1, sizeof(LinkedNode)); // O(1)
+  *node = (LinkedNode) {
     .next = NULL,
     .data = (void*) obj
   };
   
-  if (llist_empty(*list)) // O(1)
+  if (llist_empty(list)) // O(1)
     list->head = list->tail = node;
   else
     list->tail = list->tail->next = node;
+  
+  list->size++;
 }
 
 
@@ -90,17 +140,19 @@ void llist_push_tail(LinkedList* list, const void* obj) {  // Insert at the tail
 void* llist_pop_head(LinkedList* list) {  // Pop from the head.
   assert(list != NULL);
   
-  if (llist_empty(*list)) // O(1)
+  if (llist_empty(list)) // O(1)
     return NULL;
   
-  ListNode* node = list->head;
-  void* obj = node->data;
+  LinkedNode* node = list->head;
+  void* obj = lnode_data(node);
   
   list->head = list->head->next;
   if (list->tail == node)
     list->tail = NULL;
   
-  al_dealloc(list->allocator, node);  // O(1)
+  list->size--;
+  
+  al_dealloc(list->node_allocator, node);  // O(1)
   
   return obj;
 }

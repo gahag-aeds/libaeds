@@ -2,22 +2,12 @@
 #define __LIBAEDS_ADT_STACK_H__
 
 #include <stdbool.h>
-#include <stddef.h>
 
-#include <libaeds/data/container/storagetype.h>
-#include <libaeds/data/container/linkedlist.h>
-#include <libaeds/data/container/vectorlist.h>
 #include <libaeds/memory/allocator.h>
 
 
 typedef struct Stack {
-  StorageType type; // Indicates the type of the data structure used for storage.
-  
-  union {
-    LinkedList llist;
-    VectorList vlist;
-  } data; // The data structure used for storage.
-  
+  void* data; // The data structure used for storage.
   
   // Delete a stack, deallocating the memory used by the stack,
   // via the allocator specified in new_*stack.
@@ -34,26 +24,26 @@ typedef struct Stack {
   
   // Pushes an element to a stack.
   // Returns wether the operation succeeded.
-  // This operation fails if a vector list is used as storage, and the list is full.
+  // This operation fails if a VectorList is used as storage, and the list is full.
   // Complexity: O(1)
-  bool (*push)(struct Stack*, const void*);
+  bool (*push)(struct Stack, const void*);
   // Pops an element from a stack.
   // Returns NULL if the operation fails.
   // This operation fails if the stack is empty.
   // Complexity: O(1)
-  void* (*pop)(struct Stack*);
+  void* (*pop)(struct Stack);
 } Stack;
 
 
-// Creates a stack that uses a linked list as storage.
-// The linked list will use the supplyed allocator for memory operations.
-// The list only uses the allocator for allocating a listnodes one at a time.
-// Therefore, it supports any allocator that
-// provides `al_alloc(allocator, 1, sizeof(*node))` and the correspondent al_dealloc.
+// Creates a stack that uses a LinkedList as storage.
+// The LinkedList will use the specified allocator once to allocate the LinkedList struct,
+// and the node_allocator for each node allocation.
+// The list only allocates nodes one at a time. Therefore, it supports any node_allocator
+// that provides `al_alloc(allocator, 1, sizeof_lnode)` and the correspondent al_dealloc.
 // Complexity: O(1)
-Stack new_lstack(const Allocator*);
-// Creates a stack that uses a vector list of the specified size as storage.
-// The vector list will use the supplyed allocator for memory operations.
+Stack new_lstack(const Allocator*, const Allocator* node_allocator);
+// Creates a stack that uses a VectorList of the specified size as storage.
+// The VectorList will use the supplyed allocator for memory operations.
 // Complexity: O(1)
 Stack new_vstack(const Allocator*, size_t);
 
@@ -72,14 +62,14 @@ bool stack_empty(Stack);
 
 // Pushes an element to a stack.
 // Returns wether the operation succeeded.
-// This operation fails if a vector list is used as storage, and the list is full.
+// This operation fails if a VectorList is used as storage, and the list is full.
 // Complexity: O(1)
-bool stack_push(Stack*, const void*);
+bool stack_push(Stack, const void*);
 // Pops an element from a stack.
 // Returns NULL if the operation fails.
 // This operation fails if the stack is empty.
 // Complexity: O(1)
-void* stack_pop(Stack*);
+void* stack_pop(Stack);
 
 
 #endif /* __LIBAEDS_ADT_STACK_H__ */
