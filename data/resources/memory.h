@@ -11,7 +11,7 @@
 // Note: Allocation failure is handled with the
 // `mem_error` function of the allocator before returning.
 void* rs_register_alloc(
-  Allocator,
+  const Allocator*,
   size_t count,
   size_t size,
   ResourceDisposer,

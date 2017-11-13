@@ -4,15 +4,16 @@
 
 
 void* rs_register_alloc(
-  Allocator allocator,
+  const Allocator* allocator,
   size_t count,
   size_t size,
   ResourceDisposer disposer,
   Resources* rss
 ) {
+  assert(allocator != NULL);
   assert(rss != NULL);
   
-  void* ptr = al_alloc(&allocator, count, size);
+  void* ptr = al_alloc(allocator, count, size);
   
   return rs_register(ptr, disposer, rss) ? ptr
                                          : NULL;
