@@ -19,19 +19,19 @@ uint8_t popcount_64(uint64_t v) {
 
 
 uint8_t msb_8(uint8_t v) {
-  return (sizeof(unsigned int) * 8) - __builtin_clz(v);
+  return (sizeof(unsigned int) * 8) - __builtin_clz(v) - 1;
 }
 
 uint8_t msb_16(uint16_t v) {
-  return (sizeof(unsigned int) * 8) - __builtin_clz(v);
+  return (sizeof(unsigned int) * 8) - __builtin_clz(v) - 1;
 }
 
 uint8_t msb_32(uint32_t v) {
-  return (sizeof(unsigned long) * 8) - __builtin_clzl(v);
+  return (sizeof(unsigned long) * 8) - __builtin_clzl(v) - 1;
 }
 
 uint8_t msb_64(uint64_t v) {
-  return (sizeof(unsigned long long) * 8) - __builtin_clzll(v);
+  return (sizeof(unsigned long long) * 8) - __builtin_clzll(v) - 1;
 }
 
 
